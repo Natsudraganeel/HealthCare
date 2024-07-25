@@ -51,7 +51,7 @@ if(password!==confirmpassword) {
   setclick("");
   }
   try{
-  const res=await axios.put("http://localhost:8000/api/auth/changepassword",{email:user.user.email,id:user.user._id,password:password});
+  const res=await axios.put("https://health-first-0qsn.onrender.com/api/auth/changepassword",{email:user.user.email,id:user.user._id,password:password});
 
   
     navigate("/");
