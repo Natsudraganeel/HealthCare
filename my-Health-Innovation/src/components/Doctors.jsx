@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from "react"
 import Card from "./card"
 import UserContext from '../../context/UserContext.js';
 import axios from 'axios'
-const API_URL = 'http://localhost:8000/api/doctors/getalldoctors'
+const API_URL = 'https://health-first-0qsn.onrender.com/api/doctors/getalldoctors'
 
 const parent = {
   position: "relative",
@@ -91,7 +91,7 @@ export default function Doctor() {
   // }
   const handleSearchClick=async()=>{
   try{
-const res=await axios.get(`http://localhost:8000/api/doctors/filtereddoctors/${query}`);
+const res=await axios.get(`https://health-first-0qsn.onrender.com/api/doctors/filtereddoctors/${query}`);
 console.log(res.data.doctors);
 setDoctors(res.data.doctors);
   }
