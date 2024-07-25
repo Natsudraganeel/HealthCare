@@ -43,7 +43,7 @@ const PatientDashboard = () => {
             // console.log(user.authToken)
             if (user) {
                 //console.log(user+"hello")
-                const response = await fetch('http://localhost:8000/api/patients/getpatient', {
+                const response = await fetch('https://health-first-0qsn.onrender.com/api/patients/getpatient', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const PatientDashboard = () => {
     }
 
     // const getAppointments = async () => {
-    //     const response = await fetch('http://localhost:8000/api/appointment/getallappointments', {
+    //     const response = await fetch('https://health-first-0qsn.onrender.com/api/appointment/getallappointments', {
     //         method: 'GET',
     //         headers: {
     //             'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const PatientDashboard = () => {
     const getDoctorById = async (doctorId) => {
         // const doctorId = appointments.doctor;
         // console.log(doctorId)
-        const response = await fetch(`http://localhost:8000/api/doctors/getdoctorbyid/${doctorId}`, {
+        const response = await fetch(`https://health-first-0qsn.onrender.com/api/doctors/getdoctorbyid/${doctorId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -117,7 +117,7 @@ const PatientDashboard = () => {
 
     // const getMedicalRecords = async () => {
     //     try {
-    //         const response = await fetch('http://localhost:8000/api/medicalrecords/getmedicalrecords', {
+    //         const response = await fetch('https://health-first-0qsn.onrender.com/api/medicalrecords/getmedicalrecords', {
     //             method: 'GET',
     //             headers: {
     //                 'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ const PatientDashboard = () => {
                 setSelectedAppointment(null);
               
                 
-                const response = await fetch(`http://localhost:8000/api/appointment/delete-appintment/${id}`, {
+                const response = await fetch(`https://health-first-0qsn.onrender.com/api/appointment/delete-appintment/${id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
