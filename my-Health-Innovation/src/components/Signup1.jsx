@@ -61,12 +61,13 @@ export default function Signup() {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-    if (password !== cpassword) {
+    if (credentials.password !== credentials.cpassword) {
       setclick("Password and confirm password not matching.Try again!");
     }
+    else{
     setclick("");
     // const { username, email, password } = credentials;
-    const response = await fetch('https://health-first-0qsn.onrender.com/api/auth/signup', {
+    const response = await fetch('http://localhost:8000/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -101,7 +102,7 @@ export default function Signup() {
     else {
       console.log("Error in saving the authToken")
     }
-  } 
+  } }
 
   return (
     <>
