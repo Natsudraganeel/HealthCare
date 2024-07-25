@@ -53,7 +53,7 @@ export default function PatientForm() {
     console.log(genderData)
     console.log(bloodData)
     // const token = localStorage.getItem('token')
-    const response = await fetch('http://localhost:8000/api/patients/create-patient', {
+    const response = await fetch('https://health-first-0qsn.onrender.com/api/patients/create-patient', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
