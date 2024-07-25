@@ -66,7 +66,7 @@ export default function Signup() {
     }
     setclick("");
     // const { username, email, password } = credentials;
-    const response = await fetch('http://localhost:8000/api/auth/signup', {
+    const response = await fetch('https://health-first-0qsn.onrender.com/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
