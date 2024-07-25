@@ -56,7 +56,7 @@ export default function UpdatePatientForm() {
     console.log(genderData)
     console.log(bloodData)
     // const token = localStorage.getItem('token')
-    // const response = await fetch('http://localhost:8000/api/patients/create-patient', {
+    // const response = await fetch('https://health-first-0qsn.onrender.com/api/patients/create-patient', {
     //   method: 'POST',
     //   headers: {
     //     'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export default function UpdatePatientForm() {
     //   },
     //   body: JSON.stringify({firstName: credentials.firstName, lastName: credentials.lastName, dateOfBirth: credentials.dateOfBirth, phoneNumber: credentials.phoneNumber, street: credentials.street, city: credentials.city, state: credentials.state, pinCode: credentials.pinCode, medicalRecords: credentials.medicalRecords, Appointment: credentials.Appointment, gender: genderData, bloodGroup: bloodData})
     // })
-    const res=await axios.put("http://localhost:8000/api/patients/update-patient",
+    const res=await axios.put("https://health-first-0qsn.onrender.com/api/patients/update-patient",
       {id:patient._id,firstName: credentials.firstName, lastName: credentials.lastName, dateOfBirth: dateOfBirth, phoneNumber: credentials.phoneNumber, street: credentials.street, city: credentials.city, state: credentials.state, pinCode: credentials.pinCode, medicalRecords: patient.medicalRecords, Appointment: patient.Appointment, gender: genderData, bloodGroup: bloodData
     })
     
