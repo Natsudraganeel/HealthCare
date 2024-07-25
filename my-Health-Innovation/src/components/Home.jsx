@@ -11,9 +11,11 @@ const Home=()=>{
                  <h1 className="text-5xl font-bold leading-tight ">Empowering Health Choices for a Vibrant Life Your Trusted..</h1>
                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni vel minima aut accusamus, doloribus quaerat. Laborum voluptatum mollitia sed ut iste earum! Ducimus, quia quibusdam esse illo magni earum saepe?</p>
 
-                 <button className=' bg-brightColor text-white px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
-                            Explore more...
-                        </button>
+                 <a href="https://en.wikipedia.org/wiki/Health_care" target="_blank" rel="noopener noreferrer">
+  <button className='bg-brightColor text-white px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
+    Explore more...
+  </button>
+</a>
              </div>
             
         </div>
