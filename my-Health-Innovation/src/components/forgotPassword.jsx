@@ -31,7 +31,7 @@ export default function Forgot() {
 
         try {
             console.log(email)
-            const res = await fetch("http://localhost:8000/api/auth/forgotpassword", {
+            const res = await fetch("https://health-first-0qsn.onrender.com/api/auth/forgotpassword", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export default function Forgot() {
     const handlesubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("http://localhost:8000/api/auth/forgotpassword", {
+            const res = await fetch("https://health-first-0qsn.onrender.com/api/auth/forgotpassword", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
