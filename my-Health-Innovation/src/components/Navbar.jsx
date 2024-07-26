@@ -112,16 +112,30 @@ const Navbar = () => {
                                 </svg>
                             </button>
                             <div id="dropdownNavbar" className={`z-10 ${isHidden ? "hidden" : ""} font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 lg:absolute right-0`}>
+                                {/* <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                                    <li>
+                                        <a onClick={handleDashboard} href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-black  w-full">Dashboard</a>
+                                    </li>
+                                </ul> */}
+
                                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
                                     <li>
-                                        <a onClick={handleDashboard} href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                                    </li>
+                                        <a
+                                             onClick={handleDashboard}
+                                             href="/"
+                                            className="block px-4 py-2 w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-black"
+                                         >
+                                         Dashboard
+                                         </a>
+                                     </li>
                                 </ul>
+
+
                                 <div className="py-1">
-                                    <button onClick={handleLogout} href="/" className="block px-4 py-2 text-sm text-black-800 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full">Logout</button>
+                                    <button onClick={handleLogout} href="/" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-black w-full">Logout</button>
                                 </div>
                                 <div className="py-1">
-                                    <button onClick={() => { navigate("/changepassword") }} href="/" className="block px-4 py-2 text-sm text-black-800 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full">Change password</button>
+                                    <button onClick={() => { navigate("/changepassword") }} href="/" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-black w-full">Change password</button>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +159,6 @@ const Navbar = () => {
                     <Link to='nutrition' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Nutrition</Link>
                     <Link to='workout' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Workout</Link>
                     <Link to='/doctors' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Doctors</Link>
-                    {/* <Link to='appointments' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Appointments</Link> */}
                     <Link to='about' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>About us</Link>
                     <button className='hover:text-hoverColor transition-all cursor-pointer' onClick={openForm}>
                         Contact
@@ -161,8 +174,8 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <div className='flex flex-col gap-4'>
-                            <button onClick={handleDashboard} href="/" className="bg-brightColor text-white px-4 py-2 m-4 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Dashboard</button>
-                            <button onClick={handleLogout} href="/" className="bg-brightColor text-white px-4 py-2 m-4 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Logout</button>
+                            <button onClick={handleDashboard} href="/" className="bg-brightColor text-black px-4 py-2 m-4 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Dashboard</button>
+                            <button onClick={handleLogout} href="/" className="bg-brightColor text-black px-4 py-2 m-4 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Logout</button>
                         </div>
                     )}
                 </div>
