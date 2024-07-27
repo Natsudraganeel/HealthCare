@@ -6,7 +6,7 @@ const About=()=>{
         <div className="min-h-screen flex  flex-col lg:flex-row justify-between items-center lg:px-32 px-5 pt-24 lg:pt-16 gap-5">
             <div className="w-full lg:w-1/2 space-y-4">
                 <h1 className="text-4xl font-semibold text-center lg:text-start">About Us!</h1>
-                <p className="text-justify lg:text-start">Health Innovation Hospital stands as a beacon of modern healthcare excellence in the heart of the community it serves. With a commitment to innovation and patient-centered care, the hospital has earned a sterling reputation for its state-of-the-art facilities and top-notch medical professionals. </p>
+                <p className="text-justify lg:text-start">Ajay, Diptarup, and Rupam, currently students at the IT department of Jadavpur University, are the creative minds behind this healthcare innovation website. Driven by a passion for leveraging technology to improve health and well-being, they have combined their expertise to develop a comprehensive platform that offers valuable resources and tools for fitness, nutrition, and overall wellness. Their goal is to make healthcare accessible and effective, empowering users to lead healthier lives through innovative solutions. </p>
 
                 <p className="text-justify lg:text-start">The hospital's state-of-the-art facilities are another source of pride. Featuring the latest in medical technology, the hospital offers a wide range of services, from routine check-ups to complex surgeries. Patients can rest assured that they are receiving the best possible care, as the hospital's medical teams are equipped with the tool</p>
 
