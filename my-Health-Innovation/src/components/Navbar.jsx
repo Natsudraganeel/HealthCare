@@ -165,17 +165,17 @@ const Navbar = () => {
                     </button>
                     {!localStorage.getItem('token') ? (
                         <div className='flex flex-col gap-4'>
-                            <button className='bg-brightColor text-white px-4 py-2 m-4 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
+                            <button className='bg-brightColor text-white py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
                                 <Link to='/signup' role="button" onClick={closeMenu}>Sign up</Link>
                             </button>
-                            <button className='bg-brightColor text-white px-4 py-2 m-4 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
+                            <button className='bg-brightColor text-white py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
                                 <Link to='/signin' role='button' onClick={closeMenu}>Sign in</Link>
                             </button>
                         </div>
                     ) : (
                         <div className='flex flex-col gap-4'>
-                            <button onClick={handleDashboard} href="/" className="bg-brightColor text-black px-4 py-2 m-4 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Dashboard</button>
-                            <button onClick={handleLogout} href="/" className="bg-brightColor text-black px-4 py-2 m-4 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Logout</button>
+                            <button onClick={handleDashboard} href="/" className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Dashboard</button>
+                            <button onClick={handleLogout} href="/" className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Logout</button>
                         </div>
                     )}
                 </div>
