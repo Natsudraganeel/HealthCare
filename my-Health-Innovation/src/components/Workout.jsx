@@ -12,11 +12,15 @@ const Workout=()=>{
         <div cladssName="min-h-screen flex flex-col justify-center lg:px-32 px-5 pt-24">
             <div className="flex flex-col items=center  justify-between">
                 <div>
-                    <h1 className="  text-4xl font-semibold text-center ">Recommended Workouts!</h1>
-                    <p className="mt-2 text-center ">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+                    <h1 className="  text-4xl font-semibold text-center ">Our Workout Library</h1>
+                    <p className="mt-2 text-center ">Discover a variety of workouts designed to help you achieve your fitness goals and maintain a healthy lifestyle.</p>
                 </div>
                 <div className="mt-4 lg:mt-0">
-                    <button  className=' bg-brightColor text-white  p-5 px-8 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>Learn more . . .</button>
+                <a href="https://en.wikipedia.org/wiki/Exercise">
+                <button className='bg-brightColor text-white p-5 m-3 px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
+                        Learn more . . .
+                 </button>
+                </a>
                 </div>
              </div>
              <div className="my-8">
