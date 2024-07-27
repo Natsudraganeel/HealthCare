@@ -50,8 +50,14 @@ const sendEmail = (event) => {
                         <textarea  onChange={(e)=>{setquery(e.target.value)}} type="number" name="userNumber" id="userNumber" placeholder="Your Queries" className="py-3 px-2 bg-[#c8f2c6] rounded-lg"/>
                     </div>
 
-                    <div className=' bg-brightColor text-white h-7 text-center rounded-md hover:bg-hoverColor cursor-pointer transition duration-300 ease-in-out' onClick={sendEmail}>Submit</div>
-                    <div className= "bg-backgroundColor text-white px-10  h-7 rounded-md active:bg-green-500 cursor-pointer text-center" onClick={closeForm}>Close</div>
+                    <div className='bg-brightColor text-white h-8 text-center rounded-md hover:bg-hoverColor cursor-pointer transition duration-300 ease-in-out flex items-center justify-center' onClick={sendEmail}>
+                    Submit
+                    </div>
+
+                    <div className="bg-backgroundColor text-white px-10 h-8 rounded-md active:bg-green-500 cursor-pointer text-center flex items-center justify-center" onClick={closeForm}>
+                    Close
+                    </div>
+
 
                 </form>
             </div>
