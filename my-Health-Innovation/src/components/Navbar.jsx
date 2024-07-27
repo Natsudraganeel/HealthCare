@@ -155,7 +155,7 @@ const Navbar = () => {
                     <div className="fixed inset-0 z-20 bg-black bg-opacity-50" onClick={closeMenu}></div>
                 )}
                 <div className={`${menu ? "translate-x-0" : "translate-x-full"} lg:hidden flex flex-col fixed bg-backgroundColor text-white left-0 top-0 font-semibold text-2xl text-center pt-8 pb-4 gap-8 w-full h-full transition-transform duration-300 ease-in-out z-20`}>
-                    <Link to='home' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Home</Link>
+                    <Link to='/' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Home</Link>
                     <Link to='nutrition' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Nutrition</Link>
                     <Link to='workout' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Workout</Link>
                     <Link to='/doctors' duration={500} className='hover:text-hoverColor transition-all cursor-pointer' onClick={closeMenu}>Doctors</Link>
