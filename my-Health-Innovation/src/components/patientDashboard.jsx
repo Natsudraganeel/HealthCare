@@ -235,29 +235,39 @@ const PatientDashboard = () => {
     return ans;
  }
 
+ const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? 'Invalid date' : date.toISOString().split('T')[0];
+  };
+
     return (<>
          {/*{user !== null && user.user.isDoctor === false ? ( */}
         <div className="min-h-screen flex flex-col   items-center" style={{ backgroundColor: "#a3f0bd" }}>
-            <h1 className="text-4xl text-center mt-32 mb-8">Health Care NewDashboard</h1>
-            <div className="flex flex-row items-center mb-8 w-full max-w-2xl">
-                <img
-                    src={selectedImage || users.profile_picture}
-                    alt="_____profilePic______"
-                    className="w-48 h-48 rounded-full mr-4 border-black border-2"
-                />
-                <div>
-                    
-                    <p className="text-xl">First Name: {users.firstName}</p>
-                    <p className="text-xl">Last Name: {users.lastName}</p>
-                    <p className="text-xl">Date of Birth: {users.dateOfBirth}</p>
-                    <p className="text-xl">Gender: {users.gender}</p>
-                    <p className="text-xl">Blood Group: {users.bloodGroup}</p>
-                    <div style={btn}>
-            <button onClick={()=>{navigate("/update-patient")}} className=" my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
-          </div>
-                </div>
+            <h1 className="text-4xl text-center mt-32 mb-8"> Your Health Care Dashboard</h1>
+            <div className="flex flex-row items-center justify-center mb-8 w-full max-w-2xl mx-auto">
+  {/* <img
+    src={selectedImage || users.profile_picture}
+    alt="_____profilePic______"
+    className="w-48 h-48 rounded-full mr-4 border-black border-2"
+  /> */}
+  <div className="flex flex-col items-center space-y-2 mx-10">
+    {/* console.log(users); */}
+    <p className="text-xl"><b>First Name: </b>{users.firstName}</p>
+    <p className="text-xl"><b>Last Name:</b> {users.lastName}</p>
+    <p className="text-xl"><b>Date of Birth:</b> {formatDate(users.dateOfBirth)}</p>
+    <p className="text-xl"><b>Gender:</b> {users.gender}</p>
+    <p className="text-xl"><b>Blood Group:</b> {users.bloodGroup}</p>
+    <div style={btn}>
+      <button 
+        onClick={() => { navigate("/update-patient"); }} 
+        className="my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-auto px-4 py-2.5 sm:px-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+</div>
 
-            </div>
             <hr />
             <h2 className="text-3xl text-center mb-3 w-full max-w-2xl">Appointments</h2>
             <div className="flex flex-wrap w-full max-w-2xl">
@@ -270,9 +280,9 @@ const PatientDashboard = () => {
                         <div style={{width:"15rem",height:"14rem"}} className="bg-white rounded-lg shadow-md p-4 cursor-pointer max-w-2xl relative">
                             {/* <p className="text-xl font-semibold mb-2">{appointment.doctor}</p> */}
                             <svg style={cross} ref={testRef} onClick={async() => await deleteCard(event, appointment.id)} className="h-8 w-8 text-red-500 absolute" width="15" height="15" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <line x1="15" y1="5" x2="5" y2="15" />  <line x1="5" y1="5" x2="15" y2="15" /></svg>
-                            <p>Name: {appointment.name}</p>
-                            <p>Date: {appointment.date}</p>
-                            <p>Time: {appointment.time}</p>
+                            <p><b>Name:</b> {appointment.name}</p>
+                            <p><b>Date:</b> {appointment.date}</p>
+                            <p><b>Time:</b> {appointment.time}</p>
                         </div>
                     </div>
                 )) : <p className='pb-3 m-auto'>No Appointments</p>}
@@ -283,9 +293,9 @@ const PatientDashboard = () => {
                         <h2 className="text-3xl text-center mb-8 w-full max-w-2xl">Appointment Details</h2>
                         <div className="bg-white rounded-lg shadow-md p-4 mb-4 w-full max-w-2xl cursor-pointer">
                             {selectedDoctor && (<p className="text-xl font-semibold mb-2">Doctor: {selectedDoctor.name}</p>)}
-                            <p>Name: {selectedAppointment.name}</p>
-                            <p>Date: {selectedAppointment.date}</p>
-                            <p>Time: {selectedAppointment.time}</p>
+                            <p><b>Name:</b> {selectedAppointment.name}</p>
+                            <p><b>Date:</b> {selectedAppointment.date}</p>
+                            <p><b>Time:</b> {selectedAppointment.time}</p>
                         </div>
                     </div>
                 )
@@ -298,11 +308,11 @@ const PatientDashboard = () => {
                         className="w-1/2 mb-8 px-4"
                     >
                         <div className="bg-white rounded-lg shadow-md p-4 cursor-pointer w-full max-w-2xl">
-                            <p>Doctor: {medicalRecord.doctorName}</p>
-                            <p>Patient: {medicalRecord.patientName}</p>
-                            <p>Medicines: {medicalRecord.medicines}</p>
-                            <p>Advice: {medicalRecord.advice}</p>
-                            <p>Time: {medicalRecord.date}</p>
+                            <p><b>Doctor:</b> {medicalRecord.doctorName}</p>
+                            <p><b>Patient:</b> {medicalRecord.patientName}</p>
+                            <p><b>Medicines:</b> {medicalRecord.medicines}</p>
+                            <p><b>Advice:</b> {medicalRecord.advice}</p>
+                            <p><b>Time:</b> {medicalRecord.date}</p>
                         </div>
                     </div>
                 )) : <p className='pb-3 m-auto'>No Medical Records</p>}
