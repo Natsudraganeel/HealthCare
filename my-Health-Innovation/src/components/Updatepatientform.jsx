@@ -1,243 +1,212 @@
-import React, { useState, useContext } from "react"
-import { useNavigate } from "react-router-dom"
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import UserContext from '../../context/UserContext.js';
 import PatientContext from "../../context/Patientcontext.js";
 import axios from "axios";
 
 export default function UpdatePatientForm() {
+  const { user } = useContext(UserContext);
+  const { patient } = useContext(PatientContext);
+  const navigate = useNavigate();
 
-  const {user} = useContext(UserContext)
- const{patient}=useContext(PatientContext);
-  // used for navigating through pages
-  const navigate = useNavigate()
-  const [credentials, setCredentials] = useState({ firstName: patient.firstName, lastName: patient.lastName, phoneNumber: patient.phoneNumber, street: patient.street, city: patient.city, state: patient.state, pinCode: patient.pinCode })
-  const [genderData, setGenderData] = useState(patient.genderData)
-  const [bloodData, setBloodData] = useState(patient.bloodData)
-  const [dateOfBirth,setdateOfBirth]=useState(patient.dateOfBirth);
-
-  const thing = {
-    display: "flex",
-    flexWrap: "wrap",
-  }
-  const outermost = {
-    display: "flex",
-    justifyContent: "center",
-  }
-  const span = {
-    marginRight: "30px",
-    marginLeft: "30px",
-  }
-  const input = {
-    width: "300px"
-  }
-  const btn = {
-    display: "flex",
-    justifyContent: "center",
-  }
-  const form = {
-    marginTop: "10%",
-    marginBottom: "10%",
-    border: "2px solid black",
-    width: "80%",
-  }
-  const h1 = {
-    textAlign: 'center',
-    font: 'normal 30px Arial, sans-serif',
-  }
-  const h2 = {
-    fontSize: "20px",
-    marginLeft: "10px"
-  }
+  const [credentials, setCredentials] = useState({
+    firstName: patient.firstName,
+    lastName: patient.lastName,
+    phoneNumber: patient.phoneNumber,
+    street: patient.street,
+    city: patient.city,
+    state: patient.state,
+    pinCode: patient.pinCode
+  });
+  const [genderData, setGenderData] = useState(patient.genderData);
+  const [bloodData, setBloodData] = useState(patient.bloodData);
+  const [dateOfBirth, setDateOfBirth] = useState(patient.dateOfBirth);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // navigate('/patient-dashboard');
-    console.log(credentials);
-    console.log(genderData)
-    console.log(bloodData)
-    // const token = localStorage.getItem('token')
-    // const response = await fetch('https://health-first-0qsn.onrender.com/api/patients/create-patient', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'auth-token': `${user.authToken}`
-    //     // 'auth-Token': localStorage.getItem('token')
-    //     // 'auth-Token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVlOGNlOTE2Y2U4OWQ4NjE5YTMxMjVlIn0sImlhdCI6MTcwOTc5OTA4OX0.Xaigg3iTtDlJlUXCsjAUg5rvcjrR9TGkCVqNJsuMFeM'
-    //   },
-    //   body: JSON.stringify({firstName: credentials.firstName, lastName: credentials.lastName, dateOfBirth: credentials.dateOfBirth, phoneNumber: credentials.phoneNumber, street: credentials.street, city: credentials.city, state: credentials.state, pinCode: credentials.pinCode, medicalRecords: credentials.medicalRecords, Appointment: credentials.Appointment, gender: genderData, bloodGroup: bloodData})
-    // })
-    const res=await axios.put("https://health-first-0qsn.onrender.com/api/patients/update-patient",
-      {id:patient._id,firstName: credentials.firstName, lastName: credentials.lastName, dateOfBirth: dateOfBirth, phoneNumber: credentials.phoneNumber, street: credentials.street, city: credentials.city, state: credentials.state, pinCode: credentials.pinCode, medicalRecords: patient.medicalRecords, Appointment: patient.Appointment, gender: genderData, bloodGroup: bloodData
-    })
-    
-    console.log(res.data.result);
-    // if(json.success){
+    try {
+      const res = await axios.put("https://health-first-0qsn.onrender.com/api/patients/update-patient", {
+        id: patient._id,
+        firstName: credentials.firstName,
+        lastName: credentials.lastName,
+        dateOfBirth: dateOfBirth,
+        phoneNumber: credentials.phoneNumber,
+        street: credentials.street,
+        city: credentials.city,
+        state: credentials.state,
+        pinCode: credentials.pinCode,
+        medicalRecords: patient.medicalRecords,
+        Appointment: patient.Appointment,
+        gender: genderData,
+        bloodGroup: bloodData
+      });
+      console.log(res.data.result);
       navigate('/patient-dashboard');
-    // }
-  }
+    } catch (error) {
+      console.error("Error updating patient:", error);
+    }
+  };
+
   const handleChange = (event) => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value });
-    // console.log(credentials);
-  }
+  };
 
-  const genderOptions = [
-    "Male",
-    "Female",
-    "Others"
-  ];
-
-  const bloodOptions = [
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-",
-  ];
+  const genderOptions = ["Male", "Female", "Others"];
+  const bloodOptions = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
   const genderOptionChangeHandler = (event) => {
     setGenderData(event.target.value);
-    console.log(event.target.value)
-    console.log(genderData);
   };
 
   const bloodOptionChangeHandler = (event) => {
     setBloodData(event.target.value);
-    console.log(bloodData);
   };
+
   const DateOptionChangeHandler = (event) => {
-    setdateOfBirth(event.target.value);
-    console.log(dateOfBirth);
+    setDateOfBirth(event.target.value);
   };
 
   return (
-    <>
-
-      <div style={outermost} >
-        <form style={form} onSubmit={handleSubmit}>
-          <h1 className="py-10 " style={h1}>Fill up your details</h1>
-          <section >
-            <h2 className="py-2 block" style={h2}>Personal information</h2>
-            <div style={thing}>
-              <div style={span} className="mb-5 ">
-                <label htmlFor=" First Name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                <input value={credentials.firstName} onChange={handleChange} style={input} type="text" name="firstName" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-              </div>
-              <div style={span} className="mb-5">
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                <input value={credentials.lastName}onChange={handleChange} style={input} type="text" name="lastName" id="lname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-              </div>
-              <div style={span} className="mb-5">
-                <label htmlFor="gender" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                <select v style={input} onChange={genderOptionChangeHandler}>
-                  <option>Please choose one option</option>
-                  {genderOptions.map((option, index) => {
-                    return (
-                      <option key={index}>
-                        {option}
-                      </option>
-                    );
-                  })}
-                </select> 
-              </div>
-              <div style={span} className="mb-5">
-                <label htmlFor="Bgroup" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Blood Group</label>
-                <select   style={input} onChange={bloodOptionChangeHandler}>
-                  <option>Please choose one option</option>
-                  {bloodOptions.map((option, index) => {
-                    return (
-                      <option key={index}>
-                        {option}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              <div style={span} className="mb-5">
-                <div className="flex items-center justify-between">
-                  <label htmlFor="date" className="block text-sm font-medium leading-6 text-black">
-                    Date of birth
-                  </label>
-
-                </div>
-                <div className="mb-2" >
-                  <input  onChange={DateOptionChangeHandler} style={input}
-                    id="date"
-                    name="dateOfBirth"
-                    type="date"
-                    autoComplete="date"
-                    required
-                    placeholder=" Appointment Date" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                  />
-
-                </div>
-              </div>
+    <div className="max-w-4xl mx-auto p-4">
+      <form className="border-2 border-black rounded-lg p-6" onSubmit={handleSubmit}>
+        <h1 className="text-2xl font-bold text-center mb-6">Fill up your details</h1>
+        
+        <section>
+          <h2 className="text-xl mb-4">Personal Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mb-4">
+              <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-gray-900">First Name</label>
+              <input 
+                value={credentials.firstName} 
+                onChange={handleChange} 
+                type="text" 
+                name="firstName" 
+                id="firstName" 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
             </div>
-          </section>
-          <section>
-            <h2 className="py-2 block" style={h2}>Contact information</h2>
-            <div style={thing}>
-              <div style={span} className="mb-5 ">
-                <label htmlFor=" First Name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-                <input value={credentials.phoneNumber} onChange={handleChange} style={input} type="number" name="phoneNumber" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-              </div>
+            <div className="mb-4">
+              <label htmlFor="lastName" className="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
+              <input 
+                value={credentials.lastName} 
+                onChange={handleChange} 
+                type="text" 
+                name="lastName" 
+                id="lastName" 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
             </div>
-          </section>
-          <section>
-            <h2 className="py-2 block" style={h2}>Address</h2>
-            <div style={thing}>
-              <div style={span} className="mb-5 ">
-                <label htmlFor="street" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Street</label>
-                <input value={credentials.street} onChange={handleChange} style={input} type="text" name="street" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-              </div>
-              <div style={span} className="mb-5 ">
-                <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
-                <input value={credentials.city}onChange={handleChange} style={input} type="text" name="city" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-              </div>
-              <div style={span} className="mb-5 ">
-                <label htmlFor="state" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
-                <input value={credentials.state} onChange={handleChange} style={input} type="text" name="state" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-              </div>
-              <div style={span} className="mb-5 ">
-                <label htmlFor="pinCode" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">pinCode</label>
-                <input value={credentials.pinCode}onChange={handleChange} style={input} type="text" name="pinCode" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-              </div>
+            <div className="mb-4">
+              <label htmlFor="gender" className="block mb-2 text-sm font-medium text-gray-900">Gender</label>
+              <select 
+                value={genderData} 
+                onChange={genderOptionChangeHandler} 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option>Please choose one option</option>
+                {genderOptions.map((option, index) => (
+                  <option key={index} value={option}>{option}</option>
+                ))}
+              </select>
             </div>
-          </section>
-
-
-
-
-          <div style={btn}>
-            <button type="submit" className=" my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
+            <div className="mb-4">
+              <label htmlFor="bloodGroup" className="block mb-2 text-sm font-medium text-gray-900">Blood Group</label>
+              <select 
+                value={bloodData} 
+                onChange={bloodOptionChangeHandler} 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option>Please choose one option</option>
+                {bloodOptions.map((option, index) => (
+                  <option key={index} value={option}>{option}</option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="dateOfBirth" className="block mb-2 text-sm font-medium text-gray-900">Date of Birth</label>
+              <input 
+                value={dateOfBirth} 
+                onChange={DateOptionChangeHandler} 
+                type="date" 
+                name="dateOfBirth" 
+                id="dateOfBirth" 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
           </div>
-        </form>
-      </div>
-
-    </>
-  )
+        </section>
+        
+        <section>
+          <h2 className="text-xl mb-4">Contact Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mb-4">
+              <label htmlFor="phoneNumber" className="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
+              <input 
+                value={credentials.phoneNumber} 
+                onChange={handleChange} 
+                type="tel" 
+                name="phoneNumber" 
+                id="phoneNumber" 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+          </div>
+        </section>
+        
+        <section>
+          <h2 className="text-xl mb-4">Address</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mb-4">
+              <label htmlFor="street" className="block mb-2 text-sm font-medium text-gray-900">Street</label>
+              <input 
+                value={credentials.street} 
+                onChange={handleChange} 
+                type="text" 
+                name="street" 
+                id="street" 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900">City</label>
+              <input 
+                value={credentials.city} 
+                onChange={handleChange} 
+                type="text" 
+                name="city" 
+                id="city" 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="state" className="block mb-2 text-sm font-medium text-gray-900">State</label>
+              <input 
+                value={credentials.state} 
+                onChange={handleChange} 
+                type="text" 
+                name="state" 
+                id="state" 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="pinCode" className="block mb-2 text-sm font-medium text-gray-900">Pin Code</label>
+              <input 
+                value={credentials.pinCode} 
+                onChange={handleChange} 
+                type="text" 
+                name="pinCode" 
+                id="pinCode" 
+                className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+          </div>
+        </section>
+        
+        <div className="text-center mt-6">
+          <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Update</button>
+        </div>
+      </form>
+    </div>
+  );
 }
-
-
-{/* <select style={input} name="gender" id="gender" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-<option>Male</option>
-<option>Female</option>
-<option>Others</option>
-
-</select> */}
-
-{/* <select style={input} name="bloodGroup" id="Bgroup" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-<option>O-</option>
-<option>O+</option>
-<option>A-</option>
-<option>A+</option>
-<option>B-</option>
-<option>B+</option>
-<option>AB-</option>
-<option>AB+</option>
-
-</select> */}
