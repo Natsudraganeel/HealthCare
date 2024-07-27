@@ -12,7 +12,7 @@ const Home=()=>{
                  <p>Driven by a mission to provide accessible, high-quality, and patient-centered care to all individuals, leveraging advanced technology and compassionate service. Our vision is to revolutionize healthcare delivery by creating an integrated ecosystem that promotes holistic well-being, fosters innovation, and ensures equitable access to medical resources, ultimately transforming the healthcare landscape for a healthier, more connected world.</p>
 
                  <a href="https://en.wikipedia.org/wiki/Health_care" target="_blank" rel="noopener noreferrer">
-  <button className='bg-brightColor text-white px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
+  <button className='bg-brightColor text-white px-4 py-2  m-3 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out'>
     Explore more...
   </button>
 </a>
