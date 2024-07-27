@@ -130,13 +130,13 @@ const Navbar = () => {
                                      </li>
                                 </ul>
 
-
+                                 <div className="py-1">
+                                    <button onClick={() => { navigate("/changepassword") }} href="/" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-black w-full">Change password</button>
+                                </div>
                                 <div className="py-1">
                                     <button onClick={handleLogout} href="/" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-black w-full">Logout</button>
                                 </div>
-                                <div className="py-1">
-                                    <button onClick={() => { navigate("/changepassword") }} href="/" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-black w-full">Change password</button>
-                                </div>
+                               
                             </div>
                         </div>
                     )}
