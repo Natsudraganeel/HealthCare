@@ -1,9 +1,11 @@
-import React, { useState } from "react"
+import React, { useState,useContext } from "react"
+import { useNavigate } from "react-router-dom"
+import UserContext from '../../context/UserContext.js';
 import Modal from "./modal"
 export default function Card(props) {
-    
+    const navigate = useNavigate()
     const {doctorId,schedule} = props;
-    
+    const { user } = useContext(UserContext);
 
     const icon = {
         width: "20px",
@@ -47,6 +49,9 @@ export default function Card(props) {
     }
 
     const openForm = () => {
+        if(user.user===null){
+            navigate("/signin")
+            }
         setShowForm(true);
         setMenu(false);
     }
@@ -55,10 +60,7 @@ export default function Card(props) {
         setShowForm(false);
     }
 
-    /*const list={
-        listStyleType: "square",
-        listStylePosition: "outside",
-    }*/
+   
 
     return (
 
@@ -106,4 +108,3 @@ export default function Card(props) {
         </>
     );
 }
-
