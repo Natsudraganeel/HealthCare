@@ -107,7 +107,7 @@ setDoctors(res.data.doctors);
           <input
             type="text"
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-            placeholder="Search by doctor name, doctor email, hospital name or speciality " onChange={handleChange} />
+            placeholder="Search by doctor name, hospital name or speciality " onChange={handleChange} />
           <button style={child}><i className="fa fa-search" style={icon} onClick={handleSearchClick}></i></button>
         </div>
         <button  onClick={()=>{window.location.reload()}} className=" doctor my-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">All</button>
