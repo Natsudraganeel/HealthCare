@@ -18,13 +18,13 @@ export default function Modal({ doctorId,schedule,closeForm }) {
     position: "relative"
   };
   const formdiv = {
-    border: "2px solid black",
-    padding: "20px 20px 50px 20px",
-    borderRadius: "5%",
-    backdropFilter: "blur(10px)",
-    "20% 30% 20% 30%"
- 
-  }
+  border: "2px solid black",
+  padding: "20px 20px 50px 20px",
+  borderRadius: "5%",
+  backdropFilter: "blur(10px)",
+  margin: "20% 30% 20% 30%" // Added margin here
+};
+
   const cross = {
     // border: "1px solid black",
     border: "none",
