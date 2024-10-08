@@ -214,7 +214,7 @@ export default function DoctorForm() {
                     <section style={section}>
                         <h2 className="py-2 block" style={h2}>Available Days</h2>
                         <div style={inputGroup}>
-                            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
+                            {["Sun","Mon","Tue","Wed","Thurs","Fri","Sat"].map(day => (
                                 <div style={inputContainer} className="input-container" key={day}>
                                     <label htmlFor={day} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{day}</label>
                                     <input type="checkbox" value={day} onChange={(e) => handleFilter(e.target)} />
