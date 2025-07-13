@@ -252,11 +252,8 @@ const PatientDashboard = () => {
   /> */}
   <div className="flex flex-col items-center space-y-2 mx-10">
     {/* console.log(users); */}
-    <p className="text-xl"><b>First Name: </b>{users.firstName}</p>
-    <p className="text-xl"><b>Last Name:</b> {users.lastName}</p>
-    <p className="text-xl"><b>Date of Birth:</b> {formatDate(users.dateOfBirth)}</p>
-    <p className="text-xl"><b>Gender:</b> {users.gender}</p>
-    <p className="text-xl"><b>Blood Group:</b> {users.bloodGroup}</p>
+    <p className="text-xl"><b>Username: </b>{users?.username}</p>
+<p className="text-xl"><b>Email:</b> {users?.email}</p>
     <div style={btn}>
       <button 
         onClick={() => { navigate("/update-patient"); }} 
