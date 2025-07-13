@@ -85,7 +85,7 @@ export default function DoctorDashboard() {
     // if (user) {
     // const userId = user._id;
     // console.log(userId)
-    const response = await fetch(`https://health-first-0qsn.onrender.com/api/doctors/getdoctorbyuserid`, {
+    const response = await fetch(`https://healthcare-ioez.onrender.com/api/doctors/getdoctorbyuserid`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ export default function DoctorDashboard() {
     event.preventDefault()
     console.log(credentials)
     const { doctorName, patientName, date, medicines, advice } = credentials;
-    const response = await fetch(`https://health-first-0qsn.onrender.com/api/medicalrecords/createmedicalrecord/${patientId}`, {
+    const response = await fetch(`https://healthcare-ioez.onrender.com/api/medicalrecords/createmedicalrecord/${patientId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export default function DoctorDashboard() {
                 console.log(ans);
                 setAppointments(ans);
              console.log(id);
-        const response = await fetch(`https://health-first-0qsn.onrender.com/api/appointment/delete-appintment/${id}`, {
+        const response = await fetch(`https://healthcare-ioez.onrender.com/api/appointment/delete-appintment/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
