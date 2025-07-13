@@ -70,7 +70,7 @@ export default function Signin() {
     if(json.success){
       // save the token and redirect
       setUser({...user, user: json.user, authToken: json.authToken})
-      localStorage.setItem('token', JSON.stringify({
+      localStorage.setItem("token", JSON.stringify({
       user: json.user,
       authToken: jason.authToken
       }))
