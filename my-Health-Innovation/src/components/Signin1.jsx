@@ -72,7 +72,7 @@ export default function Signin() {
       setUser({...user, user: json.user, authToken: json.authToken})
       localStorage.setItem("token", JSON.stringify({
       user: json.user,
-      authToken: jason.authToken
+      authToken: json.authToken
       }))
       console.log("successfully saved the token");
       setclick("");
