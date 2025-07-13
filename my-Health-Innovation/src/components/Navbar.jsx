@@ -122,7 +122,7 @@ const Navbar = () => {
                                     <li>
                                         <a
                                              onClick={handleDashboard}
-                                             href="/"
+{/*                                              href="/" */}
                                             className="block px-4 py-2 w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-black"
                                          >
                                          Dashboard
@@ -174,7 +174,7 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <div className='flex flex-col gap-4'>
-                            <button onClick={handleDashboard} href="/" className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Dashboard</button>
+                            <button onClick={handleDashboard}  className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Dashboard</button>
                             <button onClick={handleLogout} href="/" className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Logout</button>
                         </div>
                     )}
