@@ -51,7 +51,7 @@ export default function Signin() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const {email, password} = credentials;
-    const response = await fetch('https://health-first-0qsn.onrender.com/api/auth/signin', {
+    const response = await fetch('https://healthcare-ioez.onrender.com/api/auth/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
