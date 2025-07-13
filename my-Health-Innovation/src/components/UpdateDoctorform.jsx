@@ -125,7 +125,7 @@ const {doctor}=useContext(DoctorContext);
         const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
         // const token = localStorage.getItem('token')
         try{
-        const response = await axios.put("https://health-first-0qsn.onrender.com/api/doctors/updatedoctor",{
+        const response = await axios.put("https://healthcare-ioez.onrender.com/api/doctors/updatedoctor",{
             id:doctor._id,contact:Credentials.contact,email:Credentials.email,experienceInYears:Credentials.experienceInYears,fees:Credentials.fees,hospital:Credentials.hospital,name:Credentials.name,qualification:qData,schedule:days+start+end,speciality:spData,Appointment:doctor.Appointment
         })
 
