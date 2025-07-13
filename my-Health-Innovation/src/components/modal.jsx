@@ -179,7 +179,7 @@ else{
  
   if(possible==="fine"){
     const token = localStorage.getItem('token')
-    const response = await fetch(`https://health-first-0qsn.onrender.com/api/appointment/book-appointment/${doctorId}`, {
+    const response = await fetch(`https://healthcare-ioez.onrender.com/api/appointment/book-appointment/${doctorId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
