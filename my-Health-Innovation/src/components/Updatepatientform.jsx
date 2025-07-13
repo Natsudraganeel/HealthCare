@@ -25,7 +25,7 @@ export default function UpdatePatientForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const res = await axios.put("https://health-first-0qsn.onrender.com/api/patients/update-patient", {
+      const res = await axios.put("https://healthcare-ioez.onrender.com/api/patients/update-patient", {
         id: patient._id,
         firstName: credentials.firstName,
         lastName: credentials.lastName,
