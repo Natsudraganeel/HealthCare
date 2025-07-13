@@ -252,8 +252,8 @@ const PatientDashboard = () => {
   /> */}
   <div className="flex flex-col items-center space-y-2 mx-10">
     {/* console.log(users); */}
-    <p className="text-xl"><b>Username: </b>{user.username}</p>
-<p className="text-xl"><b>Email:</b> {user.email}</p>
+    <p className="text-xl"><b>Username: </b>{users.username}</p>
+<p className="text-xl"><b>Email:</b> {users.email}</p>
     <div style={btn}>
       <button 
         onClick={() => { navigate("/update-patient"); }} 
