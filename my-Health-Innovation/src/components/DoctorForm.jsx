@@ -129,7 +129,7 @@ export default function DoctorForm() {
         console.log("hello");
         console.log(Credentials);
         const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
-        const response = await fetch('https://health-first-0qsn.onrender.com/api/doctors/createdoctor', {
+        const response = await fetch('https://healthcare-ioez.onrender.com/api/doctors/createdoctor', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
