@@ -77,7 +77,7 @@ export default function Card(props) {
                                 <p>{props.experienceInYears} years of experience</p>
                             </div>
                             <div style={exp} className="info">
-                                <img src="https://www.apollohospitals.com/wp-content/themes/apollohospitals/assets-v2/images/location.svg" style={icon} />
+                                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" style={icon} />
                                 <p>{props.hospital}</p>
                             </div>
                         </div>
