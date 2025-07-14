@@ -3,157 +3,267 @@ import { useNavigate } from "react-router-dom";
 import UserContext from '../../context/UserContext.js';
 
 const outermost = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "100%",
-    padding: "20px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "100%",
+  padding: "20px",
 };
 
 const form = {
-    marginTop: "5%",
-    marginBottom: "5%",
-    border: "1px solid #ccc",
-    borderRadius: "10px",
-    width: "90%",
-    maxWidth: "900px",
-    padding: "30px",
-    backgroundColor: "#f9f9f9",
+  marginTop: "5%",
+  marginBottom: "5%",
+  border: "2px solid #e5e7eb",
+  borderRadius: "12px",
+  width: "90%",
+  maxWidth: "850px",
+  padding: "30px",
+  backgroundColor: "#f9fafb",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
 };
 
 const h1 = {
-    textAlign: 'center',
-    font: 'normal 30px Arial, sans-serif',
-    color: '#2c3e50'
+  textAlign: "center",
+  font: "normal 32px Arial, sans-serif",
+  marginBottom: "30px",
 };
 
 const h2 = {
-    fontSize: "20px",
-    marginBottom: "10px",
-    color: '#34495e'
+  fontSize: "20px",
+  margin: "10px 0",
+  fontWeight: "600",
+  color: "#111827",
 };
 
 const section = {
-    marginBottom: "30px",
+  marginBottom: "30px",
 };
 
 const inputGroup = {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: "20px"
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "20px",
 };
 
 const inputContainer = {
-    flex: "1 1 45%",
-    minWidth: "250px",
-    display: "flex",
-    flexDirection: "column"
+  flex: "1 1 45%",
+  minWidth: "250px",
 };
 
 const input = {
-    width: "100%",
-    padding: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "6px",
-    fontSize: "14px",
-    boxSizing: "border-box",
-    backgroundColor: "white",
+  width: "100%",
+  padding: "10px",
+  border: "1px solid #d1d5db",
+  borderRadius: "8px",
+  boxSizing: "border-box",
+  fontSize: "14px",
+};
+
+const label = {
+  display: "block",
+  marginBottom: "6px",
+  fontSize: "14px",
+  fontWeight: "500",
+  color: "#1f2937",
 };
 
 const btnContainer = {
-    display: "flex",
-    justifyContent: "center",
+  display: "flex",
+  justifyContent: "center",
+  marginTop: "20px",
 };
 
 const responsiveStyles = `
 @media (max-width: 600px) {
-    .input-container {
-        flex: 1 1 100%;
-    }
-}`;
+  .input-container {
+    flex: 1 1 100%;
+    min-width: 100% !important;
+  }
+}
+`;
 
 export default function DoctorForm() {
-    const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const [Credentials, setCredentials] = useState({
+    name: "",
+    contact: "",
+    email: "",
+    fees: "",
+    experienceInYears: "",
+    hospital: "",
+    Appointment: [],
+  });
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+  const [spData, setSpData] = useState();
+  const [qData, setQData] = useState();
+  const [checked, setChecked] = useState([]);
+  const [days, setDays] = useState("");
 
-    const [Credentials, setCredentials] = useState({ name: "", contact: "", email: "", fees: "", experienceInYears: "", hospital: "", Appointment: [] });
-    const [start, setStart] = useState("");
-    const [days, setDays] = useState("");
-    const [end, setEnd] = useState("");
-    const [spData, setSpData] = useState();
-    const [qData, setQData] = useState();
-    const [checked, setChecked] = useState([]);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const spOptions = ["MBBS", "MBBS,MD", "MBBS,MS"];
+  const qOptions = [
+    "Dermatology",
+    "ENT",
+    "Ophthalmology",
+    "Orthopedics",
+    "Gastroenterology",
+    "Pulmonology",
+    "Hematology",
+    "Nephrology",
+    "Oncology",
+    "Dentistry",
+  ];
 
-    const spOptions = ["MBBS", "MBBS,MD", "MBBS,MS"];
+  const onOptionChangeHandlerSp = (event) => {
+    setSpData(event.target.value);
+  };
 
-    const qOptions = [
-        "Dermatology", "ENT", "Ophthalmology", "Orthopedics", "Gastroenterology",
-        "Pulmonology", "Hematology", "Nephrology", "Oncology", "Dentistry"
-    ];
+  const onOptionChangeHandlerQ = (event) => {
+    setQData(event.target.value);
+  };
 
-    const onOptionChangeHandlerSp = (event) => {
-        setSpData(event.target.value);
-    };
+  const onChange = (e) => {
+    setCredentials({ ...Credentials, [e.target.name]: e.target.value });
+  };
 
-    const onOptionChangeHandlerQ = (event) => {
-        setQData(event.target.value);
-    };
+  const handleFilter = (value) => {
+    let all = [...checked];
+    if (value.checked) {
+      all.push(value.value);
+    } else {
+      all = all.filter((c) => c !== value.value);
+    }
+    setChecked(all);
+    setDays(all.toString());
+  };
 
-    const onChange = (e) => {
-        setCredentials({ ...Credentials, [e.target.name]: e.target.value });
-    };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
+    const response = await fetch("https://healthcare-ioez.onrender.com/api/doctors/createdoctor", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": `${user.authToken}`,
+      },
+      body: JSON.stringify({
+        name,
+        contact,
+        email,
+        fees,
+        qualification: qData,
+        experienceInYears,
+        schedule: `${days}:${start}-${end}`,
+        speciality: spData,
+        hospital,
+        Appointment,
+      }),
+    });
 
-    const handleFilter = (value) => {
-        let all = [...checked];
-        if (value.checked) {
-            all.push(value.value);
-        } else {
-            all = all.filter(c => c !== value.value);
-        }
-        setChecked(all);
-        setDays(all.toString());
-    };
+    const json = await response.json();
+    if (json.success) {
+      navigate("/doctor-dashboard");
+    }
+  };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
-        const response = await fetch('https://healthcare-ioez.onrender.com/api/doctors/createdoctor', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'auth-token': `${user.authToken}`
-            },
-            body: JSON.stringify({
-                name, contact, email, fees, experienceInYears,
-                hospital, Appointment,
-                schedule: days + ":" + start + "-" + end,
-                qualification: qData,
-                speciality: spData
-            })
-        });
-        const json = await response.json();
-        if (json.success) navigate('/doctor-dashboard');
-    };
+  return (
+    <>
+      <style>{responsiveStyles}</style>
+      <div style={outermost}>
+        <form style={form} onSubmit={handleSubmit}>
+          <h1 style={h1}>Fill up your details</h1>
 
-    return (
-        <>
-            <style>{responsiveStyles}</style>
-            <div style={outermost}>
-                <form style={form} onSubmit={handleSubmit}>
-                    <h1 className="py-10" style={h1}>Fill up your details</h1>
-
-                    {/* Sections here remain unchanged */}
-
-                    {/* Submit button */}
-                    <div className="py-5" style={btnContainer}>
-                        <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            Submit
-                        </button>
-                    </div>
-                </form>
+          <section style={section}>
+            <h2 style={h2}>Personal Information</h2>
+            <div style={inputGroup}>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="name" style={label}>Full Name</label>
+                <input type="text" id="name" name="name" required style={input} onChange={onChange} />
+              </div>
             </div>
-        </>
-    );
+          </section>
+
+          <section style={section}>
+            <h2 style={h2}>Contact Information</h2>
+            <div style={inputGroup}>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="contact" style={label}>Phone Number</label>
+                <input type="number" id="contact" name="contact" required style={input} onChange={onChange} />
+              </div>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="email" style={label}>Email</label>
+                <input type="email" id="email" name="email" required style={input} onChange={onChange} />
+              </div>
+            </div>
+          </section>
+
+          <section style={section}>
+            <h2 style={h2}>Professional Information</h2>
+            <div style={inputGroup}>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="qualification" style={label}>Qualification</label>
+                <select id="qualification" name="qualification" required style={input} onChange={onOptionChangeHandlerSp}>
+                  <option>Please choose one option</option>
+                  {spOptions.map((option, index) => <option key={index}>{option}</option>)}
+                </select>
+              </div>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="speciality" style={label}>Speciality</label>
+                <select id="speciality" name="speciality" required style={input} onChange={onOptionChangeHandlerQ}>
+                  <option>Please choose one option</option>
+                  {qOptions.map((option, index) => <option key={index}>{option}</option>)}
+                </select>
+              </div>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="experienceInYears" style={label}>Experience (in years)</label>
+                <input type="number" id="experienceInYears" name="experienceInYears" required style={input} onChange={onChange} />
+              </div>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="fees" style={label}>Fees</label>
+                <input type="number" id="fees" name="fees" required style={input} onChange={onChange} />
+              </div>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="hospital" style={label}>Hospital</label>
+                <input type="text" id="hospital" name="hospital" required style={input} onChange={onChange} />
+              </div>
+            </div>
+          </section>
+
+          <section style={section}>
+            <h2 style={h2}>Available Days</h2>
+            <div style={inputGroup}>
+              {["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"].map((day) => (
+                <div key={day} style={inputContainer} className="input-container">
+                  <label htmlFor={day} style={label}>{day}</label>
+                  <input type="checkbox" value={day} onChange={(e) => handleFilter(e.target)} />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section style={section}>
+            <h2 style={h2}>Available Time</h2>
+            <div style={inputGroup}>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="start" style={label}>Start Time</label>
+                <input type="time" id="start" name="start" required style={input} onChange={(e) => setStart(e.target.value)} />
+              </div>
+              <div style={inputContainer} className="input-container">
+                <label htmlFor="end" style={label}>End Time</label>
+                <input type="time" id="end" name="end" required style={input} onChange={(e) => setEnd(e.target.value)} />
+              </div>
+            </div>
+          </section>
+
+          <div style={btnContainer}>
+            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
 }
