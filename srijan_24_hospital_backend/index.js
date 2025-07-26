@@ -3,17 +3,16 @@ const express = require('express');
 const cors = require('cors');
 const connectToMongoDB = require('./db');
 
-// const corsOptions = {
-//     origin: "http://localhost:5173/",
-//     methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
-//     credentials: true
-// }
+const corsOptions = {
+    origin: "http://localhost:5173",
+    
+}
 
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 // ** Routes ** //
 app.use("/api/auth", require('./routes/auth.js'))

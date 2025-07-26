@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from "react"
 import Card from "./card"
 import UserContext from '../../context/UserContext.js';
 import axios from 'axios'
-const API_URL = 'https://healthcare-ioez.onrender.com/api/doctors/getalldoctors'
+const API_URL = 'http://localhost:8000/api/doctors/getalldoctors'
 
 const parent = {
   position: "relative",
@@ -73,7 +73,7 @@ export default function Doctor() {
 
   useEffect(() => {
     getAllDoctors(`${API_URL}`);
-  }, [query])
+  }, [])
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -91,7 +91,7 @@ export default function Doctor() {
   // }
   const handleSearchClick=async()=>{
   try{
-const res=await axios.get(`https://healthcare-ioez.onrender.com/api/doctors/filtereddoctors/${query}`);
+const res=await axios.get(`http://localhost:8000/api/doctors/filtereddoctors/${query}`);
 console.log(res.data.doctors);
 setDoctors(res.data.doctors);
   }
@@ -126,7 +126,9 @@ setDoctors(res.data.doctors);
             experienceInYears={doctor.experienceInYears}
             speciality={doctor.speciality}
             hospital={doctor.hospital}
-            schedule={doctor.schedule}
+            days={doctor.days}
+            starttime={doctor.starttime}
+            endtime={doctor.endtime}
           />
         })}
       </div>

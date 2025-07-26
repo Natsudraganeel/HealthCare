@@ -95,7 +95,7 @@ router.post('/createdoctor', fetchuser, async(req, res) => {
         res.status(500).send({success: false, message:"500: Internal Server Error"})
     }
 })
-router.put("/updatedoctor",async(req,res)=>{
+router.put("/update-doctor",async(req,res)=>{
     try{
 let user=await Doctor.findById(req.body.id);
 console.log("hello");
@@ -110,7 +110,9 @@ email:req.body.email || user.email,
 fees:req.body.fees || user.fees,
 experienceInYears:req.body.experienceInYears || user.experienceInYears,
 qualification:req.body.qualification || user.qualification,
-schedule:req.body.schedule || user.schedule,
+days:req.body.days || user.days,
+starttime:req.body.starttime || user.starttime,
+endtime:req.body.endtime || user.endtime,
 speciality:req.body.speciality || user.speciality,
 hospital:req.body.hospital || user.hospital,
 },{new:true});

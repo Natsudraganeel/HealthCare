@@ -1,6 +1,6 @@
 import { React,useState,useRef, useContext} from "react";
 import img1 from "../assets/img/images/signup_logo.png"
-
+import { ToastContainer, toast } from 'react-toastify';
 import UserContext from "../../context/UserContext"
 import { useNavigate,NavLink,Link } from "react-router-dom";
 import axios from "axios";
@@ -28,7 +28,7 @@ export default function Changepassword (){
       }
       const emailRef = useRef()
       const passwordRef = useRef()
-    
+       const [oldpassword,setoldpassword]=useState("");
       const [password,setPassword]=useState("");
       const [confirmpassword,setconfirmPassword]=useState("");
       const [showPassword, setShowPassword] = useState("password");
@@ -44,25 +44,36 @@ e.preventDefault();
 console.log(password);
 console.log(confirmpassword);
 if(password!==confirmpassword) {
-    setclick("Password and confirm password not matching.Try again!");
+    return setclick("Password and confirm password not matching.Try again!");
    
   }
   else{
   setclick("");
   }
   try{
+    // if(!user.user){
+    //   alert("login first")
+    // }
+    console.log(user)
   const res = await axios.put(
-  "https://healthcare-ioez.onrender.com/api/auth/changepassword",
+  "http://localhost:8000/api/auth/changepassword",
   {
-    email: user.user.email,
-    id: user.user._id,
-    password: password
+    
+    id: user.user?._id,
+    password: password,
+    oldpassword:oldpassword
+  },{
+    headers:{
+      'auth-token': `${user.authToken}`
+    }
   }
 );
-
-  
+if(res.data.success===false){
+   toast.error(res.data.message);
+}
+    else{
     navigate("/");
-  
+    }
  
 }
 catch(err){
@@ -90,6 +101,24 @@ catch(err){
                   </h2>
                 </div>
                 
+                
+                <div>
+    
+                  <div className="mt-2 eye" style={parent}>
+                    <input
+                      id="password"
+                      name="password"
+                      ref={passwordRef}
+                      value={oldpassword}
+                      onChange={(e)=>{setoldpassword(e.target.value)}}
+                      type="password"
+                      required
+                      placeholder="Password(atleast 8 characters)"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
+                    />
+                    
+                  </div>
+                </div>
     
                 <div>
     
@@ -141,6 +170,7 @@ catch(err){
               </form>
              
             </div>
+             <ToastContainer bodyClassName="toastBody" />
           </div>
     
         </>

@@ -1,5 +1,5 @@
 import {React,useState, useContext } from "react"
-import { GiConsoleController } from "react-icons/gi"
+
 import { useNavigate } from "react-router-dom"
 import UserContext from '../../context/UserContext.js';
 import DoctorContext from "../../context/DoctorContext.js";
@@ -111,13 +111,26 @@ const {doctor}=useContext(DoctorContext);
         // console.log(xi);
         console.log(all);
        let x=all.toString();
-        setdays(x+":");
+        setdays(x);
      
         console.log(x);
       }
     
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const chosentime1 = new Date(`1970-01-01T${start}Z`);
+         const chosentime2 = new Date(`1970-01-01T${end}Z`);
+         const time1 = new Date(`1970-01-01T06:00Z`);
+         const time2 = new Date(`1970-01-01T22:00Z`);
+            if(chosentime1>chosentime2 ){
+              return toast.error("Start time has to be before end time")
+            }
+            if(chosentime1<time1 || chosentime1>time2){
+              return toast.error("Only start times between 6:00 and 22:00 is allowed" );
+            }
+            if( chosentime2<time1 || chosentime2>time2){
+              return toast.error("Only end times between 6:00 and 22:00 is allowed" );
+            }
         console.log("hello")
         console.log(Credentials);
         console.log(spData);
@@ -125,8 +138,8 @@ const {doctor}=useContext(DoctorContext);
         const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
         // const token = localStorage.getItem('token')
         try{
-        const response = await axios.put("https://healthcare-ioez.onrender.com/api/doctors/updatedoctor",{
-            id:doctor._id,contact:Credentials.contact,email:Credentials.email,experienceInYears:Credentials.experienceInYears,fees:Credentials.fees,hospital:Credentials.hospital,name:Credentials.name,qualification:qData,schedule:days+start+end,speciality:spData,Appointment:doctor.Appointment
+        const response = await axios.put("http://localhost:8000/api/doctors/update-doctor",{
+            id:doctor._id,contact:Credentials.contact,email:Credentials.email,experienceInYears:Credentials.experienceInYears,fees:Credentials.fees,hospital:Credentials.hospital,name:Credentials.name,qualification:qData,days:days,starttime:start,endtime:end,speciality:spData,Appointment:doctor.Appointment
         })
 
         console.log(response.data);
@@ -153,7 +166,7 @@ const {doctor}=useContext(DoctorContext);
                         <div style={thing}>
                             <div style={span} className="mb-5 ">
                                 <label htmlFor=" Full Name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
-                                <input value={Credentials.name} onChange={onChange} style={input} type="text" name="name" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input value={Credentials.name} onChange={onChange} style={input} type="text" name="name" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
                             </div>
                         </div>
 
@@ -164,11 +177,11 @@ const {doctor}=useContext(DoctorContext);
                         <div style={thing}>
                             <div style={span} className="mb-5 ">
                                 <label htmlFor=" contact" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-                                <input value={Credentials.contact} onChange={onChange} style={input} type="number" name="contact" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input value={Credentials.contact} minLength={10} maxLength={10} onChange={onChange} style={input} type="tel" name="contact" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
                             </div>
                             <div style={span} className="mb-5 ">
                                 <label htmlFor=" email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                <input value={Credentials.email} onChange={onChange} style={input} type="email" name="email" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input value={Credentials.email} onChange={onChange} style={input} type="email" name="email" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
                             </div>
                         </div>
                     </section>
@@ -208,22 +221,22 @@ const {doctor}=useContext(DoctorContext);
 
                             <div style={span} className="mb-5 ">
                                 <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Experience(in years)</label>
-                                <input value={Credentials.experienceInYears} onChange={onChange} style={input} type="text" name="experienceInYears" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input value={Credentials.experienceInYears} onChange={onChange} style={input} type="text" name="experienceInYears" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
                             </div>
                             <div style={span} className="mb-5 ">
                                 <label htmlFor="state" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fees</label>
-                                <input value={Credentials.fees} onChange={onChange} style={input} type="number" name="fees" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input value={Credentials.fees} onChange={onChange} style={input} type="number" name="fees" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
                             </div>
                             <div style={span} className="mb-5 ">
                                 <label htmlFor="hospital" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hospital</label>
-                                <input value={Credentials.hospital} onChange={onChange} style={input} type="text" name="hospital" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input value={Credentials.hospital} onChange={onChange} style={input} type="text" name="hospital" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
                             </div>
                             
                         </div>
                         <div className="flex wrap">
                             <div style={span} className="mb-5 ">
                                 <label htmlFor="schedule" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Time</label>
-                                <input onChange={(e)=>{setstart(e.target.value + "-")}} style={input} id="time" name="time" type="time" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                                <input onChange={(e)=>{setstart(e.target.value )}} style={input} id="time" name="time" type="time" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
                             </div>
                             <div style={span} className="mb-5 ">
                                 <label htmlFor="schedule" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Time</label>

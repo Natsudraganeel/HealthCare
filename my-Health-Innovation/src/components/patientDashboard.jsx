@@ -14,10 +14,18 @@ const btn = {
   justifyContent: "center",
 };
 
-const PatientDashboard = () => {
+
+export default function PatientDashboard  () {
+  // const lekh=JSON.parse(localStorage.getItem("patient"))
   const { user } = useContext(UserContext);
+    const { patient, setpatient } = useContext(PatientContext);
+   useEffect(() => {
+      if (localStorage.getItem('token')) {
+        getPatient()
+      }
+    }, [user])
   const navigate = useNavigate();
-  const { patient, setpatient } = useContext(PatientContext);
+
   const [users, setUsers] = useState({});
   const [appointments, setAppointments] = useState([]);
   const [medicalRecords, setMedicalRecords] = useState([]);
@@ -27,8 +35,9 @@ const PatientDashboard = () => {
 
   const getPatient = async () => {
     try {
+      console.log(user);
       if (user) {
-        const response = await fetch('https://healthcare-ioez.onrender.com/api/patients/getpatient', {
+        const response = await fetch('http://localhost:8000/api/patients/getpatient', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -40,10 +49,12 @@ const PatientDashboard = () => {
           setUsers(json.patientData);
           setpatient(json.patientData);
           let medical_records = json.patientData.medicalRecords;
+          console.log(medical_records);
           if (medical_records) setMedicalRecords(medical_records);
           let patient_appointments = json.patientData.Appointment;
           setAppointments(patient_appointments);
           localStorage.setItem("patient", JSON.stringify(json.patientData));
+          console.log(patient);
         }
       }
     } catch (error) {
@@ -52,7 +63,7 @@ const PatientDashboard = () => {
   };
 
   const getDoctorById = async (doctorId) => {
-    const response = await fetch(`https://healthcare-ioez.onrender.com/api/doctors/getdoctorbyid/${doctorId}`, {
+    const response = await fetch(`http://localhost:8000/api/doctors/getdoctorbyid/${doctorId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -64,7 +75,7 @@ const PatientDashboard = () => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) getPatient();
-  }, [user]);
+  }, []);
 
   const handleOnClick = (appointment) => {
     setSelectedAppointment(appointment);
@@ -81,7 +92,7 @@ const PatientDashboard = () => {
         setAppointments(ans);
         setSelectedDoctor(null);
         setSelectedAppointment(null);
-        const response = await fetch(`https://healthcare-ioez.onrender.com/api/appointment/delete-appintment/${id}`, {
+        const response = await fetch(`http://localhost:8000/api/appointment/delete-appintment/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -90,7 +101,9 @@ const PatientDashboard = () => {
         });
         const json = await response.json();
         console.log(json);
-        window.location.reload();
+        // window.location.reload();
+        getPatient();
+        setSelectedAppointment(null)
       }
     } catch (error) {
       console.log(error)
@@ -112,16 +125,16 @@ const PatientDashboard = () => {
           <section className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl">
             <h1 className="text-2xl mb-4 font-semibold text-center">Patient Details</h1>
             <ul className="text-lg space-y-2">
-              <li><b>First Name:</b> {users.firstName}</li>
-              <li><b>Last Name:</b> {users.lastName}</li>
-              <li><b>Gender:</b> {users.gender}</li>
-              <li><b>Date of Birth:</b> {formatDate(users.dateOfBirth)}</li>
-              <li><b>Blood Group:</b> {users.bloodGroup}</li>
-              <li><b>Phone Number:</b> {users.phoneNumber}</li>
-              <li><b>Street:</b> {users.street}</li>
-              <li><b>City:</b> {users.city}</li>
-              <li><b>State:</b> {users.state}</li>
-              <li><b>Pin Code:</b> {users.pinCode}</li>
+              <li><b>First Name:</b> {patient.firstName}</li>
+              <li><b>Last Name:</b> {patient.lastName}</li>
+              <li><b>Gender:</b> {patient.gender}</li>
+              <li><b>Date of Birth:</b> {formatDate(patient.dateOfBirth)}</li>
+              <li><b>Blood Group:</b> {patient.bloodGroup}</li>
+              <li><b>Phone Number:</b> {patient.phoneNumber}</li>
+              <li><b>Street:</b> {patient.street}</li>
+              <li><b>City:</b> {patient.city}</li>
+              <li><b>State:</b> {patient.state}</li>
+              <li><b>Pin Code:</b> {patient.pinCode}</li>
             </ul>
             <div className="mt-4 text-center">
               <button
@@ -169,7 +182,7 @@ const PatientDashboard = () => {
         {/* Medical Records */}
         <h2 className="text-3xl text-center mb-3 w-full max-w-2xl">Medical Records</h2>
         <div className="flex flex-wrap w-full max-w-2xl">
-          {medicalRecords.length !== 0 ? medicalRecords.map((medicalRecord) => (
+          {medicalRecords.length !== 0 ?medicalRecords.map((medicalRecord) => (
             <div
               key={medicalRecord.id}
               className="w-1/2 mb-8 px-4"
@@ -189,4 +202,3 @@ const PatientDashboard = () => {
   );
 };
 
-export default PatientDashboard;

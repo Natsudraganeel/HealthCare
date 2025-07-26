@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 import UserContext from '../../context/UserContext.js';
 import Modal from "./modal";
 
 export default function Card(props) {
     const navigate = useNavigate();
-    const { doctorId, schedule } = props;
+    const { doctorId,name, days,starttime,endtime } = props;
     const { user } = useContext(UserContext);
 
     const icon = {
@@ -52,6 +53,9 @@ export default function Card(props) {
         if (user.user === null) {
             navigate("/signin");
         }
+        if(user.user.isDoctor===true){
+            return toast.error("Create a patient account");
+        }
         setShowForm(true);
         setMenu(false);
     };
@@ -64,7 +68,7 @@ export default function Card(props) {
         <>
             <div className="card">
                 <div className="top">
-                    <img className="docicon" src="https://cdn.askapollo.com/live/images/doctors/defaultprofilepicmale.png" />
+                    <img className="docicon my-2" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
                 </div>
                 <div className="bottom">
                     <p> {props.index} </p>
@@ -91,12 +95,13 @@ export default function Card(props) {
                     </div>
                     <hr></hr>
                     <p className="info">Fees - Rs {props.fees}</p>
-                    <p className="font-semibold info">{props.schedule}</p>
+                    <p className=" font-semibold info">{`${props.days} ${props.starttime}:${props.endtime}`}</p>
                     <div className="flex justify-center font-bold">
                         <button style={btn} onClick={openForm}>Book an Appointment</button>
-                        {showForm && <Modal doctorId={doctorId} schedule={schedule} closeForm={closeForm} />}
+                        {showForm && <Modal doctorId={doctorId} name={name} days={days} starttime={starttime} endtime={endtime} closeForm={closeForm} />}
                     </div>
                 </div>
+                      <ToastContainer bodyClassName="toastBody" />
             </div>
         </>
     );

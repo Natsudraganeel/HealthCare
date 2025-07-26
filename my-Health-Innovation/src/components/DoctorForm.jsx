@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from '../../context/UserContext.js';
-
+import { toast,ToastContainer } from "react-toastify";
+import DoctorContext from "../../context/DoctorContext.js";
 const outermost = {
   display: "flex",
   flexDirection: "column",
@@ -84,6 +85,7 @@ const responsiveStyles = `
 
 export default function DoctorForm() {
   const { user } = useContext(UserContext);
+    const { doctor, setdoctor } = useContext(DoctorContext);
   const [Credentials, setCredentials] = useState({
     name: "",
     contact: "",
@@ -140,22 +142,42 @@ export default function DoctorForm() {
   };
 
   const handleSubmit = async (event) => {
+    
     event.preventDefault();
+    console.log(start);
+    console.log(end);
+    // console.log(start>end);
+  const chosentime1 = new Date(`1970-01-01T${start}Z`);
+ const chosentime2 = new Date(`1970-01-01T${end}Z`);
+ const time1 = new Date(`1970-01-01T06:00Z`);
+ const time2 = new Date(`1970-01-01T22:00Z`);
+    if(chosentime1>chosentime2 ){
+      return toast.error("Start time has to be before end time")
+    }
+    if(chosentime1<time1 || chosentime1>time2){
+      return toast.error("Only start times between 6:00 and 22:00 is allowed" );
+    }
+    if( chosentime2<time1 || chosentime2>time2){
+      return toast.error("Only end times between 6:00 and 22:00 is allowed" );
+    }
     const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
-    const response = await fetch("https://healthcare-ioez.onrender.com/api/doctors/createdoctor", {
-      method: "POST",
+    const response = await fetch("http://localhost:8000/api/doctors/update-doctor", {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": `${user.authToken}`,
+        // "auth-token": `${user.authToken}`,
       },
       body: JSON.stringify({
+        id:doctor._id,
         name,
         contact,
         email,
         fees,
         qualification: qData,
         experienceInYears,
-        schedule: `${days}:${start}-${end}`,
+        days: days,
+        starttime:start,
+        endtime:end,
         speciality: spData,
         hospital,
         Appointment,
@@ -163,10 +185,14 @@ export default function DoctorForm() {
     });
 
     const json = await response.json();
+    console.log(json);
     if (json.success) {
+      
+      setdoctor(json.result);
+      localStorage.setItem("doctor", JSON.stringify(json.result))
       navigate("/doctor-dashboard");
     }
-  };
+  }
 
   return (
     <>
@@ -190,7 +216,7 @@ export default function DoctorForm() {
             <div style={inputGroup}>
               <div style={inputContainer} className="input-container">
                 <label htmlFor="contact" style={label}>Phone Number</label>
-                <input type="number" id="contact" name="contact" required style={input} onChange={onChange} />
+                <input type="tel" id="contact" name="contact" minLength={10} maxLength={10} required style={input} onChange={onChange} />
               </div>
               <div style={inputContainer} className="input-container">
                 <label htmlFor="email" style={label}>Email</label>
@@ -263,6 +289,7 @@ export default function DoctorForm() {
             </button>
           </div>
         </form>
+         <ToastContainer bodyClassName="toastBody" />
       </div>
     </>
   );

@@ -26,7 +26,7 @@ router.post('/book-appointment/:doctorId', fetchuser, [
     body('time').exists()
 ], async (req, res) => {
 
-    let success = false;
+  
 
     // if there exist error then send bad request and the error
     const errors = validationResult(req);
@@ -46,6 +46,18 @@ router.post('/book-appointment/:doctorId', fetchuser, [
         // finding patient using their "doctorId(passed as a parameter)"
         const doctor = await Doctor.findOne({ _id: req.params.doctorId })
         const doctorAppointments = doctor.Appointment;
+       
+        function help(){
+             let cnt=0;
+            doctorAppointments.map((ap)=>{
+                if(date===ap.date){cnt=cnt+1}});
+                 return cnt;
+           }
+           x=help();
+           console.log(x);
+           if(x>=2){
+            return res.send({success:false,message:"Sorry all slots booked!"})
+           }
         doctorAppointments.push({
             id: Math.random().toString(),
             user: req.user.id,
@@ -53,6 +65,7 @@ router.post('/book-appointment/:doctorId', fetchuser, [
             doctor: req.params.doctorId,
             name, date, time
         })
+
         await doctor.save()
         //console.log(doctorAppointments)
 
@@ -72,13 +85,13 @@ router.post('/book-appointment/:doctorId', fetchuser, [
             name, date, time, user: req.user.id, doctor: req.params.doctorId
         })
         await newAppointment.save();
-        success = true;
-        res.status(200).send({ success, message: "Appointment Booked Successfully" })
-        success = false;
+      
+        res.status(200).send({ success:true, message: "Appointment Booked Successfully" })
+        
 
     } catch (error) {
         console.log(error);
-        res.status(500).send({ success, error: "500: Internal Server Error" })
+        res.status(500).send({ success:false, error: "500: Internal Server Error" })
     }
 })
 

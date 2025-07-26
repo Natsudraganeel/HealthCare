@@ -50,6 +50,7 @@ router.post('/create-patient', fetchuser, async(req, res) => {
 
 router.put('/update-patient',async(req,res)=>{
     try{
+        console.log(req.body);
         let user=await Patient.findById(req.body.id);
         console.log("hello ")
         console.log(user);

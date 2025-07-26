@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import img1 from "../assets/img/images/signup_logo.png"
-
+import PatientContext from '../../context/Patientcontext.js';
 import UserContext from "../../context/UserContext"
 
 /* <label htmlFor="email" className="block text-sm font-medium leading-6 text-white">
@@ -45,13 +45,13 @@ export default function Signin() {
   
   
   const {user, setUser} = useContext(UserContext);
-
+    const { patient, setpatient } = useContext(PatientContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const {email, password} = credentials;
-    const response = await fetch('https://healthcare-ioez.onrender.com/api/auth/signin', {
+    const response = await fetch('http://localhost:8000/api/auth/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -70,7 +70,13 @@ export default function Signin() {
     if(json.success){
       // save the token and redirect
       setUser({...user, user: json.user, authToken: json.authToken})
-      localStorage.setItem("token", JSON.stringify(json))
+      localStorage.setItem("token",json.authToken);
+      localStorage.setItem('user',JSON.stringify(json.user));
+      console.log("the patient",json.pat,json.user,json.authToken)
+      
+        setpatient(json.pat);
+        localStorage.setItem("patient", JSON.stringify(json.pat));
+      
       console.log("successfully saved the token");
       setclick("");
       navigate("/");
