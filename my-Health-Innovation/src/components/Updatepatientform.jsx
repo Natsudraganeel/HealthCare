@@ -34,7 +34,7 @@ export default function UpdatePatientForm() {
 return toast.error("enter valid dob");
     }
    
-      const res = await axios.put("http://localhost:8000/api/patients/update-patient", {
+      const res = await axios.put("https://healthcare-backend-z0xu.onrender.com/api/patients/update-patient", {
         id: patient._id,
         firstName: credentials.firstName,
         lastName: credentials.lastName,
