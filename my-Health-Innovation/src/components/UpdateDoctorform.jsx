@@ -159,7 +159,7 @@ export default function UpdateDoctorForm() {
         const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
         // const token = localStorage.getItem('token')
         
-        const response = await axios.put("http://localhost:8000/api/doctors/update-doctor",{
+        const response = await axios.put("https://healthcare-backend-z0xu.onrender.com/api/doctors/update-doctor",{
             id:doctor._id,contact:Credentials.contact,email:Credentials.email,experienceInYears:Credentials.experienceInYears,fees:Credentials.fees,hospital:Credentials.hospital,name:Credentials.name,qualification:qData,days:days,starttime:start,endtime:end,speciality:spData,Appointment:doctor.Appointment
         },{
             headers:{
