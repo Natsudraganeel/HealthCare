@@ -68,7 +68,7 @@ export default function Signup() {
     else{
     setclick("");
     // const { username, email, password } = credentials;
-    const response = await fetch('http://localhost:8000/api/auth/signup', {
+    const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
