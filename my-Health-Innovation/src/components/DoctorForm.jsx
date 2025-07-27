@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import UserContext from '../../context/UserContext.js';
 import { toast,ToastContainer } from "react-toastify";
 import DoctorContext from "../../context/DoctorContext.js";
+import Spinner from "./spinner.jsx";
 const outermost = {
   display: "flex",
   flexDirection: "column",
@@ -165,7 +166,7 @@ export default function DoctorForm() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        // "auth-token": `${user.authToken}`,
+        "auth-token": `${user.authToken}`,
       },
       body: JSON.stringify({
         id:doctor._id,
@@ -196,7 +197,10 @@ export default function DoctorForm() {
 
   return (
     <>
+   
       <style>{responsiveStyles}</style>
+       {
+     user.authToken ? (
       <div style={outermost}>
         <form style={form} onSubmit={handleSubmit}>
           <h1 style={h1}>Fill up your details</h1>
@@ -291,6 +295,11 @@ export default function DoctorForm() {
         </form>
          <ToastContainer bodyClassName="toastBody" />
       </div>
+       )
+    :(
+      <Spinner/>
+          )
+    }
     </>
   );
 }

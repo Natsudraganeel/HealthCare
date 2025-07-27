@@ -95,9 +95,9 @@ router.post('/createdoctor', fetchuser, async(req, res) => {
         res.status(500).send({success: false, message:"500: Internal Server Error"})
     }
 })
-router.put("/update-doctor",async(req,res)=>{
+router.put("/update-doctor",fetchuser,async(req,res)=>{
     try{
-let user=await Doctor.findById(req.body.id);
+let user=await Doctor.findOne({ user: req.user.id })
 console.log("hello");
 console.log(user);
 console.log("hell")

@@ -4,7 +4,7 @@ const cors = require('cors');
 const connectToMongoDB = require('./db');
 
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: process.env.ORIGIN_URL,
     
 }
 

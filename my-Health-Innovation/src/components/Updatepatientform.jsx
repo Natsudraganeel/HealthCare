@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./spinner.jsx";
 import UserContext from '../../context/UserContext.js';
 import { ToastContainer, toast } from 'react-toastify';
 import PatientContext from "../../context/Patientcontext.js";
@@ -47,6 +48,10 @@ return toast.error("enter valid dob");
         Appointment: patient.Appointment,
         gender: genderData,
         bloodGroup: bloodData
+      },{
+        headers:{
+          'auth-token':`${user.authToken}`
+        }
       });
       console.log(res.data.result);
       navigate('/patient-dashboard');
@@ -75,6 +80,9 @@ return toast.error("enter valid dob");
   };
 
   return (
+    <>
+            {
+     user.authToken ? (
     <div className="max-w-4xl mx-auto p-4">
       <form className="border-2 border-black rounded-lg p-6" onSubmit={handleSubmit}>
         <h1 className="text-2xl font-bold text-center mb-6">Fill up your details</h1>
@@ -219,5 +227,11 @@ return toast.error("enter valid dob");
       </form>
         <ToastContainer bodyClassName="toastBody" />
     </div>
+    )
+    :(
+      <Spinner/>
+          )
+    }
+    </>
   );
 }

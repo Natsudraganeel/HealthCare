@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from '../../context/UserContext.js';
 import PatientContext from "../../context/Patientcontext.js";
+import Spinner from "./spinner.jsx";
 export default function PatientForm() {
   const { user } = useContext(UserContext);
 
@@ -77,7 +78,7 @@ export default function PatientForm() {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        
+        'auth-token':`${user.authToken}`
       },
       body: JSON.stringify({ 
         id:patient._id,
@@ -115,6 +116,9 @@ export default function PatientForm() {
   };
 
   return (
+    <>
+    {
+    user.authToken ? (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <form style={container} onSubmit={handleSubmit}>
         <h1 style={{ textAlign: 'center', font: 'normal 30px Arial, sans-serif' }}>Fill up your details</h1>
@@ -192,5 +196,11 @@ export default function PatientForm() {
         </div>
       </form>
     </div>
+    )
+    :(
+      <Spinner/>
+          )
+    }
+    </>
   );
 }

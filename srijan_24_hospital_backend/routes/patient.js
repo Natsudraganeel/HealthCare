@@ -48,10 +48,10 @@ router.post('/create-patient', fetchuser, async(req, res) => {
     }
 })
 
-router.put('/update-patient',async(req,res)=>{
+router.put('/update-patient',fetchuser,async(req,res)=>{
     try{
         console.log(req.body);
-        let user=await Patient.findById(req.body.id);
+        let user=await Patient.findOne({ user: req.user.id })
         console.log("hello ")
         console.log(user);
         console.log("hello 3rd")

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import UserContext from '../../context/UserContext.js';
 import { useNavigate } from "react-router-dom"
 import PatientContext from '../../context/Patientcontext.js';
-
+import Spinner from "./spinner.jsx";
 const cross = {
   border: "none",
   position: "absolute",
@@ -117,6 +117,8 @@ export default function PatientDashboard  () {
 
   return (
     <>
+     {
+    user.authToken ? (
       <div className="min-h-screen flex flex-col items-center" style={{ backgroundColor: "#a3f0bd" }}>
         <h1 className="text-4xl text-center mt-32 mb-8">Your Health Care Dashboard</h1>
 
@@ -198,6 +200,11 @@ export default function PatientDashboard  () {
           )) : <p className='pb-3 m-auto'>No Medical Records</p>}
         </div>
       </div>
+       )
+          :(
+            <Spinner/>
+                )
+          }
     </>
   );
 };

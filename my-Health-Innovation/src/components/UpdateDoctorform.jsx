@@ -1,120 +1,141 @@
 import {React,useState, useContext } from "react"
-
+import Spinner from "./spinner.jsx";
 import { useNavigate } from "react-router-dom"
+import { toast,ToastContainer } from "react-toastify";
 import UserContext from '../../context/UserContext.js';
 import DoctorContext from "../../context/DoctorContext.js";
 import axios from "axios";
 
-
-const thing = {
-    display: "flex",
-    flexWrap: "wrap",
-}
-
 const outermost = {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "100%",
+  padding: "20px",
+};
 
-}
-const span = {
-    marginRight: "30px",
-    marginLeft: "30px",
-}
-const input = {
-    width: "300px"
-}
-const btn = {
-    display: "flex",
-    justifyContent: "center",
-}
 const form = {
+  marginTop: "5%",
+  marginBottom: "5%",
+  border: "2px solid #e5e7eb",
+  borderRadius: "12px",
+  width: "90%",
+  maxWidth: "850px",
+  padding: "30px",
+  backgroundColor: "#f9fafb",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+};
 
-    marginTop: "10%",
-    marginBottom: "10%",
-    border: "2px solid black",
-    width: "80%",
-
-
-}
 const h1 = {
-    textAlign: 'center',
-    font: 'normal 30px Arial, sans-serif',
+  textAlign: "center",
+  font: "normal 32px Arial, sans-serif",
+  marginBottom: "30px",
+};
 
-}
 const h2 = {
-    fontSize: "20px",
-    marginLeft: "10px"
+  fontSize: "20px",
+  margin: "10px 0",
+  fontWeight: "600",
+  color: "#111827",
+};
+
+const section = {
+  marginBottom: "30px",
+};
+
+const inputGroup = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "20px",
+};
+
+const inputContainer = {
+  flex: "1 1 45%",
+  minWidth: "250px",
+};
+
+const input = {
+  width: "100%",
+  padding: "10px",
+  border: "1px solid #d1d5db",
+  borderRadius: "8px",
+  boxSizing: "border-box",
+  fontSize: "14px",
+};
+
+const label = {
+  display: "block",
+  marginBottom: "6px",
+  fontSize: "14px",
+  fontWeight: "500",
+  color: "#1f2937",
+};
+
+const btnContainer = {
+  display: "flex",
+  justifyContent: "center",
+  marginTop: "20px",
+};
+
+const responsiveStyles = `
+@media (max-width: 600px) {
+  .input-container {
+    flex: 1 1 100%;
+    min-width: 100% !important;
+  }
 }
+`;
+
 export default function UpdateDoctorForm() {
+  const { user } = useContext(UserContext);
+    const { doctor, setdoctor } = useContext(DoctorContext);
+  const [Credentials, setCredentials] = useState({ name: doctor.name, contact: doctor.contact, email: doctor.email, fees: doctor.fees, experienceInYears: doctor.experienceInYears, hospital: doctor.hospital, Appointment: doctor.Appointment });
+    
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+  const [spData, setSpData] = useState();
+  const [qData, setQData] = useState();
+  const [checked, setChecked] = useState([]);
+  const [days, setDays] = useState("");
 
-    const {user} = useContext(UserContext)
-const {doctor}=useContext(DoctorContext);
-    const [Credentials, setCredentials] = useState({ name: doctor.name, contact: doctor.contact, email: doctor.email, fees: doctor.fees, experienceInYears: doctor.experienceInYears, hospital: doctor.hospital, Appointment: doctor.Appointment });
-    const [start,setstart]=useState("");
-    const [days,setdays]=useState("");
-    const [end,setend]=useState("");
-    const [spData, setspData] = useState(doctor.speciality);
-    const [qData, setqData] = useState(doctor.qualification);
-    const [checked,setchecked]=useState([]);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const spOptions = ["MBBS", "MBBS,MD", "MBBS,MS"];
+  const qOptions = [
+    "Dermatology",
+    "ENT",
+    "Ophthalmology",
+    "Orthopedics",
+    "Gastroenterology",
+    "Pulmonology",
+    "Hematology",
+    "Nephrology",
+    "Oncology",
+    "Dentistry",
+  ];
 
-    const spoptions = [
-        "MBBS",
-        "MBBS,MD",
-        "MBBS,MS"]
+  const onOptionChangeHandlerSp = (event) => {
+    setSpData(event.target.value);
+  };
 
-    const qoptions = [
-        "Dermatology",
-        "ENT",
-        "Opthamology",
-        "Orthopedics",
-        "Gastroenterology",
-        "Pulmonology",
-        "Hematology",
-        "Nephrology",
-        "Oncology",
-        "Dentistry",
-    ]
-    const onOptionChangeHandlersp = (event) => {
-        setspData(event.target.value);
-        console.log(
-            "User Selected Value - ",
-            event.target.value
-        );
-    };
-    const onOptionChangeHandlerq = (event) => {
-        setqData(event.target.value);
-        console.log(
-            "User Selected Value - ",
-            event.target.value
-        );
-    };
-    const onChange = (e) => {
-        setCredentials({ ...Credentials, [e.target.name]: e.target.value });
-        console.log(Credentials);
+  const onOptionChangeHandlerQ = (event) => {
+    setQData(event.target.value);
+  };
+
+  const onChange = (e) => {
+    setCredentials({ ...Credentials, [e.target.name]: e.target.value });
+  };
+
+  const handleFilter = (value) => {
+    let all = [...checked];
+    if (value.checked) {
+      all.push(value.value);
+    } else {
+      all = all.filter((c) => c !== value.value);
     }
-       const handledays=(value)=>{
-        let all=[...checked];
-        if(value.checked){
-           
-       all.push(value.value);
-       //console.log(typeof(all));
-        }
-        else{
-        all=all.filter(c => c!==value.value);
-        }
-        setchecked(all);
-// const array=['hello','kol'];
-// const xi=array.toString();
-        // console.log(xi);
-        console.log(all);
-       let x=all.toString();
-        setdays(x);
-     
-        console.log(x);
-      }
+    setChecked(all);
+    setDays(all.toString());
+  };
     
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -140,6 +161,10 @@ const {doctor}=useContext(DoctorContext);
         try{
         const response = await axios.put("http://localhost:8000/api/doctors/update-doctor",{
             id:doctor._id,contact:Credentials.contact,email:Credentials.email,experienceInYears:Credentials.experienceInYears,fees:Credentials.fees,hospital:Credentials.hospital,name:Credentials.name,qualification:qData,days:days,starttime:start,endtime:end,speciality:spData,Appointment:doctor.Appointment
+        },{
+            headers:{
+               'auth-token':`${user.authToken}`
+            }
         })
 
         console.log(response.data);
@@ -156,142 +181,110 @@ const {doctor}=useContext(DoctorContext);
     }
 
     return (
-        <>
-
-            <div style={outermost} >
-                <form style={form} onSubmit={handleSubmit}>
-                    <h1 className="py-10 " style={h1}>Fill up your details</h1>
-                    <section >
-                        <h2 className="py-2 block" style={h2}>Personal information</h2>
-                        <div style={thing}>
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor=" Full Name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
-                                <input value={Credentials.name} onChange={onChange} style={input} type="text" name="name" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                            </div>
-                        </div>
-
-
-                    </section>
-                    <section>
-                        <h2 className="py-2 block" style={h2}>Contact information</h2>
-                        <div style={thing}>
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor=" contact" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-                                <input value={Credentials.contact} minLength={10} maxLength={10} onChange={onChange} style={input} type="tel" name="contact" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                            </div>
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor=" email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                <input value={Credentials.email} onChange={onChange} style={input} type="email" name="email" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                            </div>
-                        </div>
-                    </section>
-                    <section>
-                        <h2 className="py-2 block" style={h2}>Professional Information</h2>
-                        <div style={thing}>
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor="street" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Qualification</label>
-
-                                <select onChange={onOptionChangeHandlersp} style={input} type="text" name="qualification" id="Bgroup" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option>Please choose one option</option>
-                                    {spoptions.map((option, index) => {
-                                        return (
-                                            <option key={index}>
-                                                {option}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                            </div>
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor="street" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Speciality</label>
-
-                                <select onChange={onOptionChangeHandlerq} style={input} type="text" name="speciality" id="Bgroup" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-                                    <option>Please choose one option</option>
-                                    {qoptions.map((option, index) => {
-                                        return (
-                                            <option key={index}>
-                                                {option}
-                                            </option>
-                                        );
-                                    })}
-
-                                </select>
-                            </div>
-
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Experience(in years)</label>
-                                <input value={Credentials.experienceInYears} onChange={onChange} style={input} type="text" name="experienceInYears" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                            </div>
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor="state" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fees</label>
-                                <input value={Credentials.fees} onChange={onChange} style={input} type="number" name="fees" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                            </div>
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor="hospital" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hospital</label>
-                                <input value={Credentials.hospital} onChange={onChange} style={input} type="text" name="hospital" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                            </div>
-                            
-                        </div>
-                        <div className="flex wrap">
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor="schedule" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Time</label>
-                                <input onChange={(e)=>{setstart(e.target.value )}} style={input} id="time" name="time" type="time" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                            </div>
-                            <div style={span} className="mb-5 ">
-                                <label htmlFor="schedule" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Time</label>
-                                <input onChange={(e)=>{setend(e.target.value)}} style={input} id="time" name="time" type="time" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                            </div>
-                            </div>
-                            <div style={span} className="mb-5 ">
-                            <label for="schedule" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days</label>
-                           <div className="flex wrap">
-                           <div className="mr-4"><input className = "ml-1 mr-1" type="checkbox" value="Mon" onChange={(e)=>{
-                  handledays(e.target )
-                        }}/>
-                    <label for="scales">Mon</label>
-                    </div> 
-                    <div  className="mr-4"><input className = "ml-1 mr-1" type="checkbox" value="Tue" onChange={(e)=>{
-                  handledays(e.target )
-                        }}/>
-                    <label for="scales">Tue</label>
-                    </div> 
-                    <div className="mr-4"><input className = "ml-1 mr-1" type="checkbox" value="Wed" onChange={(e)=>{
-                  handledays(e.target )
-                        }}/>
-                    <label for="scales">Wed</label>
-                    </div> 
-                    <div className="mr-4"><input className = "ml-1 mr-1"  type="checkbox" value="Thurs" onChange={(e)=>{
-                  handledays(e.target )
-                        }}/>
-                    <label for="scales">Thurs</label>
-                    </div> 
-                    <div className="mr-4"><input className = "ml-1 mr-1" type="checkbox" value="Fri" onChange={(e)=>{
-                  handledays(e.target )
-                        }}/>
-                    <label for="scales">Fri</label>
-                    </div> 
-                    <div className="mr-4"><input className = "ml-1 mr-1" type="checkbox" value="Sat" onChange={(e)=>{
-                  handledays(e.target )
-                        }}/>
-                    <label for="scales">Sat</label>
-                    </div> 
-                    <div className="mr-4"><input className = "ml-1 mr-1" type="checkbox" value="Sun" onChange={(e)=>{
-                  handledays(e.target )
-                        }}/>
-                    <label for="scales">Sun</label>
-                    </div> 
-</div>
-        </div>
-                    </section>
-
-                    <div style={btn}>
-                        <button type="submit" className=" my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
-                    </div>
-                </form>
-            </div>
-
-        </>
+       <>
+             <style>{responsiveStyles}</style>
+              {
+     user.authToken ? (
+             <div style={outermost}>
+               <form style={form} onSubmit={handleSubmit}>
+                 <h1 style={h1}>Fill up your details</h1>
+       
+                 <section style={section}>
+                   <h2 style={h2}>Personal Information</h2>
+                   <div style={inputGroup}>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="name" style={label}>Full Name</label>
+                       <input type="text" id="name" name="name" value={Credentials.name}  style={input} onChange={onChange} />
+                     </div>
+                   </div>
+                 </section>
+       
+                 <section style={section}>
+                   <h2 style={h2}>Contact Information</h2>
+                   <div style={inputGroup}>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="contact" style={label}>Phone Number</label>
+                       <input type="tel" id="contact" name="contact"  value={Credentials.contact} minLength={10} maxLength={10}  style={input} onChange={onChange} />
+                     </div>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="email" style={label}>Email</label>
+                       <input type="email" id="email" name="email" value={Credentials.email}  style={input} onChange={onChange} />
+                     </div>
+                   </div>
+                 </section>
+       
+                 <section style={section}>
+                   <h2 style={h2}>Professional Information</h2>
+                   <div style={inputGroup}>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="qualification" style={label}>Qualification</label>
+                       <select id="qualification" name="qualification"  style={input} onChange={onOptionChangeHandlerSp}>
+                         <option>Please choose one option</option>
+                         {spOptions.map((option, index) => <option key={index}>{option}</option>)}
+                       </select>
+                     </div>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="speciality" style={label}>Speciality</label>
+                       <select id="speciality" name="speciality"  style={input} onChange={onOptionChangeHandlerQ}>
+                         <option>Please choose one option</option>
+                         {qOptions.map((option, index) => <option key={index}>{option}</option>)}
+                       </select>
+                     </div>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="experienceInYears" style={label}>Experience (in years)</label>
+                       <input type="number" id="experienceInYears" name="experienceInYears" value={Credentials.experienceInYears}  style={input} onChange={onChange} />
+                     </div>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="fees" style={label}>Fees</label>
+                       <input type="number" id="fees" name="fees" value={Credentials.fees}  style={input} onChange={onChange} />
+                     </div>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="hospital" style={label}>Hospital</label>
+                       <input type="text" id="hospital" name="hospital" value={Credentials.hospital}  style={input} onChange={onChange} />
+                     </div>
+                   </div>
+                 </section>
+       
+                 <section style={section}>
+                   <h2 style={h2}>Available Days</h2>
+                   <div style={inputGroup}>
+                     {["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"].map((day) => (
+                       <div key={day} style={inputContainer} className="input-container">
+                         <label htmlFor={day} style={label}>{day}</label>
+                         <input type="checkbox" value={day} onChange={(e) => handleFilter(e.target)} />
+                       </div>
+                     ))}
+                   </div>
+                 </section>
+       
+                 <section style={section}>
+                   <h2 style={h2}>Available Time</h2>
+                   <div style={inputGroup}>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="start" style={label}>Start Time</label>
+                       <input type="time" id="start" name="start"  style={input} onChange={(e) => setStart(e.target.value)} />
+                     </div>
+                     <div style={inputContainer} className="input-container">
+                       <label htmlFor="end" style={label}>End Time</label>
+                       <input type="time" id="end" name="end"  style={input} onChange={(e) => setEnd(e.target.value)} />
+                     </div>
+                   </div>
+                 </section>
+       
+                 <div style={btnContainer}>
+                   <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                     Update
+                   </button>
+                 </div>
+               </form>
+                <ToastContainer bodyClassName="toastBody" />
+             </div>
+              )
+                 :(
+                   <Spinner/>
+                       )
+                 }
+           </>
     )
 
 

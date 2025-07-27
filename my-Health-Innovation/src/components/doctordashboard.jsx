@@ -113,6 +113,8 @@ export default function DoctorDashboard() {
               <li>Hospital: {doctors.hospital}</li> */
   return (
     <>
+ {
+     user.authToken ? (
       <div className="min-h-screen flex flex-col items-center" style={{ backgroundColor: "#a3f0bd" }}>
        <h1 className="text-4xl text-center mt-32 mb-8">Your Health Care Dashboard</h1>
       <div className="w-full flex justify-center mb-8">
@@ -225,6 +227,12 @@ export default function DoctorDashboard() {
           </>
         )}
       </div>
+      )
+    :(
+      <Spinner/>
+          )
+    }
+      
     </>
   )
 }
