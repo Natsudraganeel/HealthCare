@@ -22,9 +22,9 @@ app.use("/api/doctors", require('./routes/doctors.js'))
 app.use("/api/appointment", require('./routes/appointment.js'))
 app.use("/api/patients", require('./routes/patient.js'))
 app.use("/api/medicalrecords", require('./routes/medicalRecord.js'))
-    app.get("/",async(req,res)=>{
-    res.send("Hello World");
-})
+//     app.get("/",async(req,res)=>{
+//     res.send("Hello World");
+// })
 
 
 //  Fallback to index.html for client-side routes
