@@ -56,7 +56,7 @@ if(password!==confirmpassword) {
     // }
     // console.log(user)
   const res = await axios.put(
-  "http://localhost:8000/api/auth/changepassword",
+  "https://healthcare-backend-z0xu.onrender.com/api/auth/changepassword",
   {
     
     id: user.user?._id,
