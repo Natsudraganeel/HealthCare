@@ -74,7 +74,7 @@ export default function PatientForm() {
         if(time2>time1){
     return toast.error("enter valid dob");
         }
-    const response = await fetch('http://localhost:8000/api/patients/update-patient', {
+    const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/patients/update-patient', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
