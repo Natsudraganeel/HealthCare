@@ -51,7 +51,7 @@ export default function Signin() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const {email, password} = credentials;
-    const response = await fetch('http://localhost:8000/api/auth/signin', {
+    const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/auth/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
