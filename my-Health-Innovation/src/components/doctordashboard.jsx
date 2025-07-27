@@ -97,6 +97,9 @@ export default function DoctorDashboard() {
         if(json.success){
           getDoctor();
         }
+        else{
+          alert(json.error);
+        }
       }
     } catch (error) {
       console.log(error)

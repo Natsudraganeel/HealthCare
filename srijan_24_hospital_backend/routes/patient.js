@@ -78,14 +78,14 @@ router.put('/update-patient',fetchuser,async(req,res)=>{
         console.log(result);
     }
     else{
-        res.send({success:false})
+       res.send({success:false,message:"request not done"})
     }
   
 
 
     }
     catch(err){
-        res.send({success:false});
+        console.log(err.message);
     }
 })
 

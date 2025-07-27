@@ -232,10 +232,34 @@ router.get('/getuser', fetchuser, async (req, res) => {
 
 })
 
+
+//ROUTE 3-CHECK EMAIL
+router.post('/checkemail',
+    async(req,res)=>{
+           try {
+            console.log(req.body);
+            const { email } = req.body;
+         
+            let user = await User.findOne({ email: email });  // i forgot to write await here.The problem i faced was that the user was not found.
+            console.log(user.username);
+            console.log(email)
+            if (!user) {
+                return res.send({ success: false, message: "You are not registered" });
+            }
+            res.send({ success:true});
+           
+        }
+        catch (error) {
+            console.log(error.message);
+            res.status(500).send({ success: false, message: "500: Internal Server Error!" })
+        }
+    }
+)
+
 // ROUTE 4 - FORGET PASSWORD 
-router.post('/forgotpassword', [
-    body('email', 'Enter a valid email').isEmail()],
+router.post('/forgotpassword', 
     async (req, res) => {
+       
         try {
             console.log(req.body);
             const { email } = req.body;

@@ -152,13 +152,13 @@ export default function UpdateDoctorForm() {
             if( chosentime2<time1 || chosentime2>time2){
               return toast.error("Only end times between 6:00 and 22:00 is allowed" );
             }
-        console.log("hello")
-        console.log(Credentials);
-        console.log(spData);
-        console.log(qData);
+        // console.log("hello")
+        // console.log(Credentials);
+        // console.log(spData);
+        // console.log(qData);
         const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
         // const token = localStorage.getItem('token')
-        try{
+        
         const response = await axios.put("http://localhost:8000/api/doctors/update-doctor",{
             id:doctor._id,contact:Credentials.contact,email:Credentials.email,experienceInYears:Credentials.experienceInYears,fees:Credentials.fees,hospital:Credentials.hospital,name:Credentials.name,qualification:qData,days:days,starttime:start,endtime:end,speciality:spData,Appointment:doctor.Appointment
         },{
@@ -167,17 +167,16 @@ export default function UpdateDoctorForm() {
             }
         })
 
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.success) {
             navigate('/doctor-dashboard');
         }
         else{
-            console.log(response.data.success);
+            console.log(response.data.message);
         }
-    }
-    catch(err){
-        console.log(err.message);
-    }
+    
+  
+      
     }
 
     return (

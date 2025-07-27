@@ -41,8 +41,8 @@ export default function Changepassword (){
     
 const handlesubmit=async(e)=>{
 e.preventDefault();
-console.log(password);
-console.log(confirmpassword);
+// console.log(password);
+// console.log(confirmpassword);
 if(password!==confirmpassword) {
     return setclick("Password and confirm password not matching.Try again!");
    
@@ -54,7 +54,7 @@ if(password!==confirmpassword) {
     // if(!user.user){
     //   alert("login first")
     // }
-    console.log(user)
+    // console.log(user)
   const res = await axios.put(
   "http://localhost:8000/api/auth/changepassword",
   {

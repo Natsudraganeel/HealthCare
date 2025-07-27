@@ -145,8 +145,8 @@ export default function DoctorForm() {
   const handleSubmit = async (event) => {
     
     event.preventDefault();
-    console.log(start);
-    console.log(end);
+    // console.log(start);
+    // console.log(end);
     // console.log(start>end);
   const chosentime1 = new Date(`1970-01-01T${start}Z`);
  const chosentime2 = new Date(`1970-01-01T${end}Z`);
@@ -186,12 +186,15 @@ export default function DoctorForm() {
     });
 
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     if (json.success) {
       
       setdoctor(json.result);
       localStorage.setItem("doctor", JSON.stringify(json.result))
       navigate("/doctor-dashboard");
+    }
+    else{
+      alert(json.message);
     }
   }
 

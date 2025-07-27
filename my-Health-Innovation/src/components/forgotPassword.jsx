@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState,useContext } from "react"
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
-
+import UserContext from "../../context/UserContext"
 
 export default function Forgot() {
     const formdiv = {
@@ -20,7 +20,8 @@ export default function Forgot() {
     const [otp4, setotp4] = useState("");
     const [sentotp, setsentotp] = useState();
     const [click, setclick] = useState("");
-    // const [auth, setauth] = useAuth();
+  
+    const {user, setUser} = useContext(UserContext);
     var ox;
     const nav = useNavigate();
 
@@ -30,24 +31,25 @@ export default function Forgot() {
         event.preventDefault();
 
         try {
-            console.log(email)
-            const res = await fetch("http://localhost:8000/api/auth/forgotpassword", {
+            // console.log(email)
+            const res = await fetch("http://localhost:8000/api/auth/checkemail", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email: email })
             })
-            console.log(res);
-            if (res.success === false) {
-                alert(res.message);
+              const json =await res.json()
+            // console.log(res);
+            if (json.success === false) {
+                alert(json.message);
             }
             else {
                 ox = Math.random();
                 ox = ox * 9000;
                 ox = Math.floor(ox) + 1000;
 
-                console.log(ox);
+                // console.log(ox);
                 setsentotp(ox);
              //   console.log(sentotp);
                 const config = {
@@ -94,27 +96,29 @@ export default function Forgot() {
                 body: JSON.stringify({ email: email })
             })
             let ans = otp1 + otp2 + otp3 + otp4;
-            console.log(sentotp);
-            console.log(ans);
+            // console.log(sentotp);
+            // console.log(ans);
             const json =await res.json()
-            console.log(json);
-            console.log(res)
+            // console.log(json);
+            // console.log(res)
             if (json.success === true && sentotp == ans) {
                 //alert("success");
-                localStorage.setItem('token', JSON.stringify(json))
+                setUser({...user, user: json.user, authToken: json.authToken})
+                 localStorage.setItem("token",json.authToken);
+      localStorage.setItem('user',JSON.stringify(json.user));
               
                 nav("/");
-                window.location.reload();
+                // window.location.reload();
             }
             else if (json.success === true && sentotp != ans) {
                 setclick("The otp entered is wrong.Try resending the otp");
             }
             else {
-                alert(json.authToken);
+                alert(json.message);
             }
         }
         catch (err) {
-            console.log(err);
+            // console.log(err);
             alert(err.message);
         }
     }
@@ -122,24 +126,24 @@ export default function Forgot() {
     const handleChange_1 = (event) => {
         event.preventDefault()
         setotp1(event.target.value)
-        console.log(event.target.value)
+        // console.log(event.target.value)
     }
     const handleChange_2 = (event) => {
         event.preventDefault()
         setotp2(event.target.value)
-        console.log(event.target.value)
+        // console.log(event.target.value)
     }
 
     const handleChange_3 = (event) => {
         event.preventDefault()
         setotp3(event.target.value)
-        console.log(event.target.value)
+        // console.log(event.target.value)
     }
 
     const handleChange_4 = (event) => {
         event.preventDefault()
         setotp4(event.target.value)
-        console.log(event.target.value)
+        // console.log(event.target.value)
     }
 
 
@@ -158,7 +162,7 @@ export default function Forgot() {
                     <form onSubmit={sendEmail}>
 
                         <input value={email} onChange={handleOnChange} type="email" name="email" id="email" className=" mb-10 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@email.com" required />
-                        <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-4 bg-blue-700 border-none text-white text-1xl shadow-sm">
+                        <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-4 bg-green-600 border-none text-white text-1xl shadow-sm">
                             Submit email
                         </button>
                     </form>
@@ -171,23 +175,23 @@ export default function Forgot() {
                             <div className="flex flex-col space-y-16">
                                 <div className="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
                                     <div className="w-16 h-16 mx-3">
-                                        <input onChange={handleChange_1} style={{ width: "50px", height: "50px", border: "2px solid black", paddingLeft: "22px"}} required />
+                                        <input onChange={handleChange_1} style={{ width: "50px", height: "50px", border: "2px solid black", paddingLeft: "22px"}}  minLength={1} maxLength={1} required />
                                     </div>
                                     <div className="w-16 h-16 mx-3">
-                                        <input onChange={handleChange_2} style={{ width: "50px", height: "50px", border: "2px solid black", paddingLeft: "22px" }} required />
+                                        <input onChange={handleChange_2} style={{ width: "50px", height: "50px", border: "2px solid black", paddingLeft: "22px" }} minLength={1} maxLength={1} required />
                                     </div>
                                     <div className="w-16 h-16 mx-3">
-                                        <input onChange={handleChange_3} style={{ width: "50px", height: "50px", border: "2px solid black", paddingLeft: "22px" }} required />
+                                        <input onChange={handleChange_3} style={{ width: "50px", height: "50px", border: "2px solid black", paddingLeft: "22px" }} minLength={1} maxLength={1} required />
                                     </div>
                                     <div className="w-16 h-16 mx-3">
-                                        <input onChange={handleChange_4} style={{ width: "50px", height: "50px", border: "2px solid black", paddingLeft: "22px" }} required />
+                                        <input onChange={handleChange_4} style={{ width: "50px", height: "50px", border: "2px solid black", paddingLeft: "22px" }} minLength={1} maxLength={1} required />
                                     </div>
                                 </div>
 
                                 <div className="flex flex-col space-y-5">
                                     <div>
                                         <h1 style={{ color: "red" }}>{click}</h1>
-                                        <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-4 bg-blue-700 border-none text-white text-1xl shadow-sm">
+                                        <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-4 bg-green-600 border-none text-white text-1xl shadow-sm">
                                             Verify Account
                                         </button>
                                     </div>

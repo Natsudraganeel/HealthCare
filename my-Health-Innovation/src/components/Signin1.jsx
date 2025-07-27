@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import img1 from "../assets/img/images/signup_logo.png"
-import PatientContext from '../../context/Patientcontext.js';
+
 import UserContext from "../../context/UserContext"
 
 /* <label htmlFor="email" className="block text-sm font-medium leading-6 text-white">
@@ -45,7 +45,7 @@ export default function Signin() {
   
   
   const {user, setUser} = useContext(UserContext);
-    const { patient, setpatient } = useContext(PatientContext);
+  
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -59,7 +59,7 @@ export default function Signin() {
       body: JSON.stringify({email: email, password: password})
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     // setUser(json);
     // console.log(credentials);
     // clearing the input fields
@@ -74,13 +74,13 @@ export default function Signin() {
       localStorage.setItem('user',JSON.stringify(json.user));
   
       
-      console.log("successfully saved the token");
+      // console.log("successfully saved the token");
       setclick("");
       navigate("/");
     }
     else{
       setclick(json.message);
-      console.log("Error in saving the authToken")
+      // alert("Error in saving the authToken")
     }
   }
 

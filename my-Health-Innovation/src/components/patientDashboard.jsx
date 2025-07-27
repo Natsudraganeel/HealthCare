@@ -34,8 +34,8 @@ export default function PatientDashboard  () {
   const testRef = useRef();
 
   const getPatient = async () => {
-    try {
-      console.log(user);
+   
+      // console.log(user);
       if (user) {
         const response = await fetch('http://localhost:8000/api/patients/getpatient', {
           method: 'GET',
@@ -49,17 +49,18 @@ export default function PatientDashboard  () {
           setUsers(json.patientData);
           setpatient(json.patientData);
           let medical_records = json.patientData.medicalRecords;
-          console.log(medical_records);
+          // console.log(medical_records);
           if (medical_records) setMedicalRecords(medical_records);
           let patient_appointments = json.patientData.Appointment;
           setAppointments(patient_appointments);
           localStorage.setItem("patient", JSON.stringify(json.patientData));
-          console.log(patient);
+          // console.log(patient);
+        }
+        else{
+          alert(res.data.message)
         }
       }
-    } catch (error) {
-      console.log(error)
-    }
+    
   };
 
   const getDoctorById = async (doctorId) => {
@@ -84,7 +85,7 @@ export default function PatientDashboard  () {
 
   const deleteCard = async (event, id) => {
     event.preventDefault();
-    try {
+ 
       if (user) {
         const ans = [...appointments];
         const index = ans.findIndex((item => item.id === id));
@@ -99,15 +100,18 @@ export default function PatientDashboard  () {
             'auth-token': `${user.authToken}`
           }
         });
-        const json = await response.json();
-        console.log(json);
+        const json = await response.json();;
+        if(json.error){
+          alert(json.error);
+        }
+        else{
+        // console.log(json);
         // window.location.reload();
         getPatient();
         setSelectedAppointment(null)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+              }
+                  }
+    
   };
 
   const formatDate = (dateString) => {

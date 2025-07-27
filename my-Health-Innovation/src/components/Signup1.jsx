@@ -76,7 +76,7 @@ export default function Signup() {
       body: JSON.stringify({ username: credentials.username, email: credentials.email, password: credentials.password, isDoctor: isDoctor })
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     setUser(json);
 
     // clearing the input fields
@@ -91,10 +91,10 @@ export default function Signup() {
       setUser({...user, user: json.user, authToken: json.authToken})
        localStorage.setItem("token",json.authToken);
             localStorage.setItem('user',JSON.stringify(json.user));
-      console.log("successfully saved the token")
+      // console.log("successfully saved the token")
       setdoctor(json.doc);
       localStorage.setItem("doctor", JSON.stringify(json.doc))
-      console.log("successfully saved the token")
+      // console.log("successfully saved the token")
       navigate("/doctor-form");
     }
     else if (json.success && isDoctor === false){
@@ -106,11 +106,11 @@ export default function Signup() {
       
         setpatient(json.pat);
         localStorage.setItem("patient", JSON.stringify(json.pat));
-      console.log("successfully saved the token")
+      // console.log("successfully saved the token")
       navigate("/patient-form")
     }
     else {
-      console.log("Error in saving the authToken")
+      alert(json.message);
     }
   } }
 

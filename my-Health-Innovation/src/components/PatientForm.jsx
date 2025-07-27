@@ -63,14 +63,14 @@ export default function PatientForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(credentials);
-    console.log(genderData);
-    console.log(bloodData);
-    console.log(patient);
+    // console.log(credentials);
+    // console.log(genderData);
+    // console.log(bloodData);
+    // console.log(patient);
     const time1 = new Date();
         const time2=new Date(`${credentials.dateOfBirth}T00:00:01Z`);
-        console.log(time1);
-        console.log(time2);
+        // console.log(time1);
+        // console.log(time2);
         if(time2>time1){
     return toast.error("enter valid dob");
         }
@@ -91,13 +91,15 @@ export default function PatientForm() {
     });
 
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     if(json.success){
       setpatient(json.result);
       localStorage.setItem("patient", JSON.stringify(json.result));
       navigate('/patient-dashboard');
     }
-    
+    else{
+      alert(json.message)
+    }
   };
 
   const handleChange = (event) => {

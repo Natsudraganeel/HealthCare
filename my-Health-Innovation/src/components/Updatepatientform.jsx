@@ -28,12 +28,12 @@ export default function UpdatePatientForm() {
     event.preventDefault();
     const time1 = new Date();
     const time2=new Date(`${dateOfBirth}T00:00:01Z`);
-    console.log(time1);
-    console.log(time2);
+    // console.log(time1);
+    // console.log(time2);
     if(time2>time1){
 return toast.error("enter valid dob");
     }
-    try {
+   
       const res = await axios.put("http://localhost:8000/api/patients/update-patient", {
         id: patient._id,
         firstName: credentials.firstName,
@@ -53,11 +53,13 @@ return toast.error("enter valid dob");
           'auth-token':`${user.authToken}`
         }
       });
-      console.log(res.data.result);
+      if(res.data.success){
+      // console.log(res.data.result);
       navigate('/patient-dashboard');
-    } catch (error) {
-      console.error("Error updating patient:", error);
-    }
+      }
+      else{
+        alert(res.data.message)
+      }
   };
 
   const handleChange = (event) => {

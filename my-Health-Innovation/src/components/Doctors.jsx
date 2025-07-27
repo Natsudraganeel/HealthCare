@@ -92,7 +92,7 @@ export default function Doctor() {
   const handleSearchClick=async()=>{
   try{
 const res=await axios.get(`http://localhost:8000/api/doctors/filtereddoctors/${query}`);
-console.log(res.data.doctors);
+// console.log(res.data.doctors);
 setDoctors(res.data.doctors);
   }
   catch(err){

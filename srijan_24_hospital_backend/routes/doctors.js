@@ -37,7 +37,7 @@ router.get('/getdoctorbyid/:doctorId', async(req, res) => {
         const doctor = await Doctor.findOne({_id: req.params.doctorId});
         res.status(200).send(doctor);
     } catch (error) {
-        res.status(500).send("500: Internal Server Error")
+        console.log(error.message)
     }
 })
 router.get('/filtereddoctors/:keyword',async(req,res)=>{
@@ -122,7 +122,7 @@ console.log(result);
 }
 
     else{
-        res.send({success:false})
+        res.send({success:false,message:"request not done"})
     }
 
 
