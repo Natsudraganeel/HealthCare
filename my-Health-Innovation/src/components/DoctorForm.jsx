@@ -162,7 +162,7 @@ export default function DoctorForm() {
       return toast.error("Only end times between 6:00 and 22:00 is allowed" );
     }
     const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
-    const response = await fetch("http://localhost:8000/api/doctors/update-doctor", {
+    const response = await fetch("https://healthcare-backend-z0xu.onrender.com/api/doctors/update-doctor", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
