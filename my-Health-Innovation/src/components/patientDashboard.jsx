@@ -37,7 +37,7 @@ export default function PatientDashboard  () {
    
       // console.log(user);
       if (user) {
-        const response = await fetch('http://localhost:8000/api/patients/getpatient', {
+        const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/patients/getpatient', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export default function PatientDashboard  () {
   };
 
   const getDoctorById = async (doctorId) => {
-    const response = await fetch(`http://localhost:8000/api/doctors/getdoctorbyid/${doctorId}`, {
+    const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/doctors/getdoctorbyid/${doctorId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ export default function PatientDashboard  () {
         setAppointments(ans);
         setSelectedDoctor(null);
         setSelectedAppointment(null);
-        const response = await fetch(`http://localhost:8000/api/appointment/delete-appintment/${id}`, {
+        const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/appointment/delete-appintment/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
