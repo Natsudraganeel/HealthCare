@@ -17,7 +17,7 @@ const sendEmail = (event) => {
                     Port: `${import.meta.env.VITE_PORT}`,
                     To: email,
                     From: `${import.meta.env.VITE_USERNAME}`,
-                    Subject: "",
+                    Subject: "Customer Query",
                     Body: query+".My phone number is "+phone,
 
     };
