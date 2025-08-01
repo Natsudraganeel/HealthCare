@@ -76,7 +76,7 @@ export default function Forgot() {
             }
         }
         catch (err) {
-            console.log(err);
+            console.log(err.message);
         }
     }
 
@@ -118,8 +118,8 @@ export default function Forgot() {
             }
         }
         catch (err) {
-            // console.log(err);
-            alert(err.message);
+            console.log(err.message);
+            // alert(err.message);
         }
     }
 
