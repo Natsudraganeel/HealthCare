@@ -67,6 +67,7 @@ export default function PatientDashboard  () {
   };
 
   const getDoctorById = async (doctorId) => {
+    try{
     const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/doctors/getdoctorbyid/${doctorId}`, {
       method: 'GET',
       headers: {
@@ -75,6 +76,10 @@ export default function PatientDashboard  () {
     });
     const json = await response.json();
     if (json) setSelectedDoctor(json);
+    }
+    catch(err){
+       console.log(err.message);
+    }
   };
 
   useEffect(() => {
@@ -88,7 +93,7 @@ export default function PatientDashboard  () {
 
   const deleteCard = async (event, id) => {
     event.preventDefault();
- 
+ try{
       if (user) {
         const ans = [...appointments];
         const index = ans.findIndex((item => item.id === id));
@@ -114,6 +119,10 @@ export default function PatientDashboard  () {
         setSelectedAppointment(null)
               }
                   }
+ }
+    catch(err){
+console.log(err.message);
+    }
     
   };
 
