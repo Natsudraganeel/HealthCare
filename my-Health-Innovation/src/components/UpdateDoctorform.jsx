@@ -156,6 +156,7 @@ export default function UpdateDoctorForm() {
         // console.log(Credentials);
         // console.log(spData);
         // console.log(qData);
+      try{
         const { name, contact, email, fees, experienceInYears, hospital, Appointment } = Credentials;
         // const token = localStorage.getItem('token')
         
@@ -175,7 +176,10 @@ export default function UpdateDoctorForm() {
             console.log(response.data.message);
         }
     
-  
+      }
+      catch(err){
+         console.log(err.message);
+      }
       
     }
 
