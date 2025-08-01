@@ -62,7 +62,7 @@ export default function Doctor() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'auth-token': `${user.authToken}`
+        // 'auth-token': `${user.authToken}`
         // 'auth-token': localStorage.getItem('token')
         // 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVlOGNlOTE2Y2U4OWQ4NjE5YTMxMjVlIn0sImlhdCI6MTcwOTc5OTA4OX0.Xaigg3iTtDlJlUXCsjAUg5rvcjrR9TGkCVqNJsuMFeM'
       }
@@ -110,7 +110,7 @@ setDoctors(res.data.doctors);
             placeholder="Search by doctor name, hospital name or speciality " onChange={handleChange} />
           <button style={child}><i className="fa fa-search" style={icon} onClick={handleSearchClick}></i></button>
         </div>
-        <button  onClick={()=>{window.location.reload()}} className=" doctor my-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">All</button>
+        <button  onClick={()=>{getAllDoctors(API_URL)}} className=" doctor my-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">All</button>
       </div>
       <h1 style={head}>Consult Top Doctors By Speciality For Any Health Concern </h1>
       <div className="allcard ml-4">
