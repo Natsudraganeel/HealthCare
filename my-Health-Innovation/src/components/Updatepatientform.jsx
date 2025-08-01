@@ -33,7 +33,7 @@ export default function UpdatePatientForm() {
     if(time2>time1){
 return toast.error("enter valid dob");
     }
-   
+        try{
       const res = await axios.put("https://healthcare-backend-z0xu.onrender.com/api/patients/update-patient", {
         id: patient._id,
         firstName: credentials.firstName,
@@ -60,6 +60,10 @@ return toast.error("enter valid dob");
       else{
         alert(res.data.message)
       }
+        }
+    catch(err){
+      console.log(err.message);
+    }
   };
 
   const handleChange = (event) => {
