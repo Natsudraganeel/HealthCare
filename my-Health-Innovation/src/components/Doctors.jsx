@@ -58,6 +58,7 @@ export default function Doctor() {
 
   const getAllDoctors = async (API_URL) => {
     // const token = localStorage.getItem('token')
+    try{
     const response = await fetch(API_URL, {
       method: 'GET',
       headers: {
@@ -69,6 +70,10 @@ export default function Doctor() {
     });
     const json = await response.json();
     setDoctors(json);
+    }
+    catch(err){
+    console.log(err.message);
+    }
   }
 
   useEffect(() => {
@@ -96,7 +101,7 @@ const res=await axios.get(`https://healthcare-backend-z0xu.onrender.com/api/doct
 setDoctors(res.data.doctors);
   }
   catch(err){
-    console.log(err);
+    console.log(err.message);
   }
   }
 
