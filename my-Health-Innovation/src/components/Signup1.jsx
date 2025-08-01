@@ -66,6 +66,7 @@ export default function Signup() {
       setclick("Password and confirm password not matching.Try again!");
     }
     else{
+      try{
     setclick("");
     // const { username, email, password } = credentials;
     const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/auth/signup', {
@@ -112,7 +113,13 @@ export default function Signup() {
     else {
       alert(json.message);
     }
-  } }
+  }
+        catch(err){
+      console.log(err.message);
+    }
+    }
+  
+  }
 
   return (
     <>
