@@ -34,7 +34,7 @@ export default function PatientDashboard  () {
   const testRef = useRef();
 
   const getPatient = async () => {
-   
+        try{
       // console.log(user);
       if (user) {
         const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/patients/getpatient', {
@@ -60,7 +60,10 @@ export default function PatientDashboard  () {
           alert(res.data.message)
         }
       }
-    
+        }
+    catch(err){
+      console.log(err.message);
+    }
   };
 
   const getDoctorById = async (doctorId) => {
