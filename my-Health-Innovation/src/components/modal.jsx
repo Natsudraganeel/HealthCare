@@ -148,6 +148,7 @@ else {
   }
  
   if(possible==="fine"){
+   try{
     const token = localStorage.getItem('token')
     const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/appointment/book-appointment/${doctorId}`, {
       method: 'POST',
@@ -170,6 +171,10 @@ else {
     else{
       alert(json.message);
     }
+   }
+   catch(err){
+       console.log(err.message);
+   }
   }
 }
  
