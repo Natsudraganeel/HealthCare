@@ -50,6 +50,7 @@ export default function Signin() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try{
     const {email, password} = credentials;
     const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/auth/signin', {
       method: 'POST',
@@ -81,6 +82,10 @@ export default function Signin() {
     else{
       setclick(json.message);
       // alert("Error in saving the authToken")
+    }
+    }
+    catch(err){
+    console.log(err.message);
     }
   }
 
