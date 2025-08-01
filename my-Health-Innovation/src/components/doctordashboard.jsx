@@ -37,6 +37,7 @@ export default function DoctorDashboard() {
   }
 
   const getDoctor = async () => {
+    try{
     const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/doctors/getdoctorbyuserid`, {
       method: 'GET',
       headers: {
@@ -54,6 +55,10 @@ export default function DoctorDashboard() {
         setAppointments(doctor_appointment)
       }
     }
+    }
+    catch(err){
+console.log(err.message);
+    }
   }
 
   useEffect(() => {
@@ -64,6 +69,7 @@ export default function DoctorDashboard() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    try{
     const { doctorName, patientName, date, medicines, advice } = credentials;
     const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/medicalrecords/createmedicalrecord/${patientId}`, {
       method: 'POST',
@@ -77,6 +83,10 @@ export default function DoctorDashboard() {
     setSelectedAppointment(null);
     // window.location.reload();
     // console.log(credentials)
+    }
+    catch(err){
+console.log(err.message);
+    }
   }
 
   const deleteCard = async (name, id) => {
@@ -101,8 +111,8 @@ export default function DoctorDashboard() {
           alert(json.error);
         }
       }
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err.message)
     }
   }
 /*<li>Name: {doctors.name}</li>
