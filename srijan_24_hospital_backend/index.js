@@ -1,19 +1,19 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+// const path = require('path');
 const connectToMongoDB = require('./db');
 
-// const corsOptions = {
-//     origin: "http://localhost:5173/",
-//     methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
-//     credentials: true
-// }
+const corsOptions = {
+    origin: process.env.ORIGIN_URL,
+    
+}
 
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 // ** Routes ** //
 app.use("/api/auth", require('./routes/auth.js'))
@@ -24,6 +24,8 @@ app.use("/api/medicalrecords", require('./routes/medicalRecord.js'))
     app.get("/",async(req,res)=>{
     res.send("Hello World");
 })
+
+
 
 ; (async () => {
     await connectToMongoDB(process.env.MONGODB_URL);

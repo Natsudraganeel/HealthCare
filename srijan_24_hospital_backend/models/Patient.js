@@ -20,32 +20,37 @@ const patientSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ['Male', 'Female', 'Others'],
+    enum: ['Male', 'Female', 'Others',"Not filled"],
     required: true
   },
   bloodGroup: {
     type: String,
     required: true,
-    enum: ["O-", "O+", "A-", "A+", "B-", "B+", "AB-", "AB+"],
+    enum: ["O-", "O+", "A-", "A+", "B-", "B+", "AB-", "AB+","Not filled"],
   },
 
   // Contact Information
 
   phoneNumber: {
     type: Number,
+    require:true
   },
 
   street: {
     type: String,
+    require:true
   },
   city: {
     type: String,
+    require:true
   },
   state: {
     type: String,
+    require:true
   },
   pinCode: {
-    type: String,
+    type: Number,
+    require:true
   },
 
 

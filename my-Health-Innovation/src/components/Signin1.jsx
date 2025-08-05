@@ -45,13 +45,14 @@ export default function Signin() {
   
   
   const {user, setUser} = useContext(UserContext);
-
+  
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try{
     const {email, password} = credentials;
-    const response = await fetch('https://healthcare-ioez.onrender.com/api/auth/signin', {
+    const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/auth/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ export default function Signin() {
       body: JSON.stringify({email: email, password: password})
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     // setUser(json);
     // console.log(credentials);
     // clearing the input fields
@@ -70,14 +71,21 @@ export default function Signin() {
     if(json.success){
       // save the token and redirect
       setUser({...user, user: json.user, authToken: json.authToken})
-      localStorage.setItem("token", JSON.stringify(json))
-      console.log("successfully saved the token");
+      localStorage.setItem("token",json.authToken);
+      localStorage.setItem('user',JSON.stringify(json.user));
+  
+      
+      // console.log("successfully saved the token");
       setclick("");
       navigate("/");
     }
     else{
       setclick(json.message);
-      console.log("Error in saving the authToken")
+      // alert("Error in saving the authToken")
+    }
+    }
+    catch(err){
+    console.log(err.message);
     }
   }
 

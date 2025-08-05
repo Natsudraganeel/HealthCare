@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import img1 from "../assets/img/images/signup_logo.png"
 import UserContext from "../../context/UserContext";
-
+import PatientContext from '../../context/Patientcontext.js';
+import DoctorContext from "../../context/DoctorContext.js";
 
 const parent = {
   position: "relative"
@@ -39,9 +40,9 @@ export default function Signup() {
   const [credentials, setcredentials] = useState({ username: "", email: "", password: "", cpassword: "" });
   const [click, setclick] = useState("");
   const [isDoctor, setIsDoctor] = useState(false);
-
+    const { patient, setpatient } = useContext(PatientContext);
   const {user, setUser} = useContext(UserContext);
-
+  const { doctor, setdoctor } = useContext(DoctorContext);
   // used for navigating through pages
   const navigate = useNavigate()
 
@@ -65,9 +66,10 @@ export default function Signup() {
       setclick("Password and confirm password not matching.Try again!");
     }
     else{
+      try{
     setclick("");
     // const { username, email, password } = credentials;
-    const response = await fetch('https://healthcare-ioez.onrender.com/api/auth/signup', {
+    const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -75,7 +77,7 @@ export default function Signup() {
       body: JSON.stringify({ username: credentials.username, email: credentials.email, password: credentials.password, isDoctor: isDoctor })
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     setUser(json);
 
     // clearing the input fields
@@ -88,21 +90,36 @@ export default function Signup() {
       // save the authToken and redirect
       // localStorage.setItem('token', json.authToken);
       setUser({...user, user: json.user, authToken: json.authToken})
-      localStorage.setItem('token', JSON.stringify(json))
-      console.log("successfully saved the token")
+       localStorage.setItem("token",json.authToken);
+            localStorage.setItem('user',JSON.stringify(json.user));
+      // console.log("successfully saved the token")
+      setdoctor(json.doc);
+      localStorage.setItem("doctor", JSON.stringify(json.doc))
+      // console.log("successfully saved the token")
       navigate("/doctor-form");
     }
     else if (json.success && isDoctor === false){
       // localStorage.setItem('token', json.authToken)
-      setUser({...user, user: json.user, authToken: json.authToken})
-      localStorage.setItem('token', JSON.stringify(json))
-      console.log("successfully saved the token")
+      setUser({user: json.user, authToken: json.authToken})
+       localStorage.setItem("token",json.authToken);
+            localStorage.setItem('user',JSON.stringify(json.user));
+              // console.log("the patient",json.pat,json.user,json.authToken)
+      
+        setpatient(json.pat);
+        localStorage.setItem("patient", JSON.stringify(json.pat));
+      // console.log("successfully saved the token")
       navigate("/patient-form")
     }
     else {
-      console.log("Error in saving the authToken")
+      alert(json.message);
     }
-  } }
+  }
+        catch(err){
+      console.log(err.message);
+    }
+    }
+  
+  }
 
   return (
     <>

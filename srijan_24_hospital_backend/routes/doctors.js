@@ -37,7 +37,7 @@ router.get('/getdoctorbyid/:doctorId', async(req, res) => {
         const doctor = await Doctor.findOne({_id: req.params.doctorId});
         res.status(200).send(doctor);
     } catch (error) {
-        res.status(500).send("500: Internal Server Error")
+        console.log(error.message)
     }
 })
 router.get('/filtereddoctors/:keyword',async(req,res)=>{
@@ -95,9 +95,9 @@ router.post('/createdoctor', fetchuser, async(req, res) => {
         res.status(500).send({success: false, message:"500: Internal Server Error"})
     }
 })
-router.put("/updatedoctor",async(req,res)=>{
+router.put("/update-doctor",fetchuser,async(req,res)=>{
     try{
-let user=await Doctor.findById(req.body.id);
+let user=await Doctor.findOne({ user: req.user.id })
 console.log("hello");
 console.log(user);
 console.log("hell")
@@ -110,7 +110,9 @@ email:req.body.email || user.email,
 fees:req.body.fees || user.fees,
 experienceInYears:req.body.experienceInYears || user.experienceInYears,
 qualification:req.body.qualification || user.qualification,
-schedule:req.body.schedule || user.schedule,
+days:req.body.days || user.days,
+starttime:req.body.starttime || user.starttime,
+endtime:req.body.endtime || user.endtime,
 speciality:req.body.speciality || user.speciality,
 hospital:req.body.hospital || user.hospital,
 },{new:true});
@@ -120,7 +122,7 @@ console.log(result);
 }
 
     else{
-        res.send({success:false})
+        res.send({success:false,message:"request not done"})
     }
 
 

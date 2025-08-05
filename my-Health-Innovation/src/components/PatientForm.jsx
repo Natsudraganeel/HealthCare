@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from '../../context/UserContext.js';
-
+import PatientContext from "../../context/Patientcontext.js";
+import Spinner from "./spinner.jsx";
 export default function PatientForm() {
   const { user } = useContext(UserContext);
 
@@ -14,7 +15,7 @@ export default function PatientForm() {
   });
   const [genderData, setGenderData] = useState();
   const [bloodData, setBloodData] = useState();
-
+  const { patient,setpatient } = useContext(PatientContext);
   const container = {
     display: "flex",
     flexDirection: "column",
@@ -62,17 +63,26 @@ export default function PatientForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(credentials);
-    console.log(genderData);
-    console.log(bloodData);
-    
-    const response = await fetch('https://healthcare-ioez.onrender.com/api/patients/create-patient', {
-      method: 'POST',
+    // console.log(credentials);
+    // console.log(genderData);
+    // console.log(bloodData);
+    // console.log(patient);
+    const time1 = new Date();
+        const time2=new Date(`${credentials.dateOfBirth}T00:00:01Z`);
+        // console.log(time1);
+        // console.log(time2);
+        if(time2>time1){
+    return toast.error("enter valid dob");
+        }
+    try{
+    const response = await fetch('https://healthcare-backend-z0xu.onrender.com/api/patients/update-patient', {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'auth-token': `${user.authToken}`,
+        'auth-token':`${user.authToken}`
       },
       body: JSON.stringify({ 
+        id:patient._id,
         firstName: credentials.firstName, lastName: credentials.lastName, 
         dateOfBirth: credentials.dateOfBirth, phoneNumber: credentials.phoneNumber, 
         street: credentials.street, city: credentials.city, state: credentials.state, 
@@ -82,8 +92,19 @@ export default function PatientForm() {
     });
 
     const json = await response.json();
-    console.log(json);
-    navigate('/patient-dashboard');
+    // console.log(json);
+    if(json.success){
+      setpatient(json.result);
+      localStorage.setItem("patient", JSON.stringify(json.result));
+      navigate('/patient-dashboard');
+    }
+    else{
+      alert(json.message)
+    }
+    }
+    catch(err){
+        console.log(err.message);
+    }
   };
 
   const handleChange = (event) => {
@@ -102,6 +123,9 @@ export default function PatientForm() {
   };
 
   return (
+    <>
+    {
+    user.authToken ? (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <form style={container} onSubmit={handleSubmit}>
         <h1 style={{ textAlign: 'center', font: 'normal 30px Arial, sans-serif' }}>Fill up your details</h1>
@@ -147,7 +171,7 @@ export default function PatientForm() {
           <div style={row}>
             <div style={column}>
               <label>Phone number</label>
-              <input onChange={handleChange} style={input} type="number" name="phoneNumber" required />
+              <input onChange={handleChange} style={input} type="tel" name="phoneNumber" minLength={10} maxLength={10} required />
             </div>
           </div>
         </section>
@@ -169,7 +193,7 @@ export default function PatientForm() {
             </div>
             <div style={column}>
               <label>Pin Code</label>
-              <input onChange={handleChange} style={input} type="text" name="pinCode" required />
+              <input onChange={handleChange} style={input} type="tel" name="pinCode" minLength={6} maxLength={6} required />
             </div>
           </div>
         </section>
@@ -179,5 +203,11 @@ export default function PatientForm() {
         </div>
       </form>
     </div>
+    )
+    :(
+      <Spinner/>
+          )
+    }
+    </>
   );
 }

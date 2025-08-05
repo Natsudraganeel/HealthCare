@@ -48,9 +48,10 @@ router.post('/create-patient', fetchuser, async(req, res) => {
     }
 })
 
-router.put('/update-patient',async(req,res)=>{
+router.put('/update-patient',fetchuser,async(req,res)=>{
     try{
-        let user=await Patient.findById(req.body.id);
+        console.log(req.body);
+        let user=await Patient.findOne({ user: req.user.id })
         console.log("hello ")
         console.log(user);
         console.log("hello 3rd")
@@ -77,14 +78,14 @@ router.put('/update-patient',async(req,res)=>{
         console.log(result);
     }
     else{
-        res.send({success:false})
+       res.send({success:false,message:"request not done"})
     }
   
 
 
     }
     catch(err){
-        res.send({success:false});
+        console.log(err.message);
     }
 })
 

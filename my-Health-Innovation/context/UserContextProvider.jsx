@@ -9,7 +9,7 @@ const UserContextProvider = ({ children }) => {
     const userData = localStorage.getItem('user');
 
     if (token && userData) {
-      setUser({ user: JSON.parse(userData), authToken: token });
+      setUser({...user, user: JSON.parse(userData), authToken: token });
     }
   }, []);
 

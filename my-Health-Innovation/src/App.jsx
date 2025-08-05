@@ -18,7 +18,7 @@ import DoctorForm from './components/DoctorForm';
 import UserContextProvider from '../context/UserContextProvider';
 import Forgot from './components/forgotPassword';
 import Spinner from './components/spinner';
-import OtpInput from './components/fresh';
+
 import Changepassword from './components/Changepassword';
 import PatientProvider from '../context/PatientcontextProvider';
 import UpdatePatientForm from './components/Updatepatientform';

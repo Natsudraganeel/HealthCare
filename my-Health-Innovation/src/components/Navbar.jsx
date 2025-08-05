@@ -39,9 +39,11 @@ const Navbar = () => {
     }
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('patient');
-        localStorage.removeItem("doctor");
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('patient');
+        // localStorage.removeItem("doctor");
+        // localStorage.removeItem('user');
+        localStorage.clear()
         setUser({...user, user: null, authToken: ""});
         navigate('/signin');
     }

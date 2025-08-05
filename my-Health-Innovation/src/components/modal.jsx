@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserContext from '../../context/UserContext.js';
  
  
-export default function Modal({ doctorId,schedule,closeForm }) {
+export default function Modal({ doctorId,name,days,starttime,endtime,closeForm }) {
  
   const {user} = useContext(UserContext)
  
@@ -33,16 +33,20 @@ export default function Modal({ doctorId,schedule,closeForm }) {
     cursor: "pointer"
   }
   const sendEmail = (event) => {
+    // console.log(user.user.email);
+    // console.log(import.meta.env.VITE_PASSWORD)
+    //  console.log(import.meta.env.VITE_USERNAME)
+    //   console.log(import.meta.env.VITE_PORT)
     event.preventDefault();
     const config = {
-      Username: 'diptarupsiddhanta@gmail.com',
-      Password: '4F37BE4CF84F7F3551455B207FAA1978A3B8',
-      Host: "smtp.elasticemail.com",
-      Port: 2525,
-      To: user.user.email,
-      From: 'diptarupsiddhanta@gmail.com',
-      Subject: "Appointment Success",
-      Body: "And this is the body",
+                    Username: `${import.meta.env.VITE_USERNAME}`,
+                    Password: `${import.meta.env.VITE_PASSWORD}`,
+                    Host: "smtp.elasticemail.com",
+                    Port: `${import.meta.env.VITE_PORT}`,
+                    To: user.user.email,
+                    From: `${import.meta.env.VITE_USERNAME}`,
+                    Subject: "Email Verifiaction",
+                    Body: `Your Appointment has been booked with Dr. ${name}`,
  
     };
     if (window.Email) {
@@ -60,81 +64,41 @@ export default function Modal({ doctorId,schedule,closeForm }) {
     event.preventDefault();
     setCredentials({ ...credentials, [event.target.name]: event.target.value })
     //console.log(typeof(credentials.time));
-    const start="23:00";
-    const end="01:00";
-    
-     let days=schedule.substring(0,schedule.length-12);
-    // console.log(days);
-     const array=days.split(",");
-   
- 
- 
-     console.log(typeof(array));
-   //  console.log(array);
-      
-     const adate="2024-07-15";
-     const today=new Date(`${adate}T${"13:45:30"}Z`);
-     const y=today.getDay();
-     console.log(weekday[y]);
-     console.log(typeof(weekday[y]));
-  
-   if(array.find((c)=>{return weekday[y]===c})===undefined){
-console.log("jao")
-   }
- 
- 
- 
- 
- 
- 
-    let time1,time2;
-    let time="00:02";
-    let chosentime;
-    if(start>end){
-       time1 = new Date(`1970-01-01T${start}Z`);
-       time2 = new Date(`1970-02-01T${end}Z`);
-       chosentime= new  Date(`1970-01-01T${time}Z`);
- 
-       if(chosentime < time1 || chosentime >time2){
-       // console.log("out of range");
-       }
-       else{
-       // console.log("fine");
-       }
-    }
-    else{
- time1 = new Date(`1970-01-01T${start}Z`);
- time2 = new Date(`1970-01-01T${end}Z`);
- chosentime= new  Date(`1970-01-01T${time}Z`);
- if (time1 <= chosentime && chosentime<=time2) {
-  //console.log("Fine");
-}  else {
- // console.log("Out of range");
-}
- 
-  }
+
 }
  
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(doctorId);
+    // console.log(doctorId);
     const { name, date, time } = credentials;
     //console.log(date);
 var possible="";
-    const end=schedule.substr(schedule.length-5);
-    const start=schedule.substr(schedule.length-11,5);
-    let days=schedule.substring(0,schedule.length-12);
+    const end=endtime;
+    const start=starttime;
+    //     console.log(start);
+    // console.log(end);
+    // let days=schedule.substring(0,schedule.length-12);
  
      const array=days.split(",");
-     const today=new Date(`${date}T${"13:45:30"}Z`);
-     const y=today.getDay();
-     console.log(weekday[y]);
-     console.log(typeof(weekday[y]));
+     const selectday=new Date(`${date}T${"13:45"}Z`);
+     const y=selectday.getDay();
+     const today=new Date();
+    //  console.log("today",today.toLocaleString());
+    //  console.log("selectday",selectday.toLocaleString());
+     if(selectday.toLocaleDateString()<today.toLocaleDateString()){
+      return toast.error(`Choose a valid date`, {
+      position: "top-right",
+    })
+     }
+    
+ 
+    //  console.log(weekday[y]);
+    //  console.log(typeof(weekday[y]));
   
    let bool=array.find((c)=>{return weekday[y]===c});
  
    if(bool===undefined){
-    toast.error(`Doctor is not available on this weekday.Please see the schedule`, {
+    return toast.error(`Doctor is not available on this weekday.Please see the schedule`, {
       position: "top-right",
  
     })
@@ -144,42 +108,49 @@ var possible="";
 else{
     let time1,time2;
     let chosentime;
-    if(start>end){
-       time1 = new Date(`1970-01-01T${start}Z`);
-       time2 = new Date(`1970-02-01T${end}Z`);
-       chosentime= new  Date(`1970-01-01T${time}Z`);
- 
-       if(chosentime < time1 || chosentime >time2){
-       // console.log("out of range");
-         toast.error('Timings not matching with doctor', {
-          position: "top-right",
- 
-        })
-       }
-       else{
-        possible="fine";
-       }
-    }
-    else{
+    // console.log(start);
+    // console.log(end);
+
  time1 = new Date(`1970-01-01T${start}Z`);
  time2 = new Date(`1970-01-01T${end}Z`);
  chosentime= new  Date(`1970-01-01T${time}Z`);
  if (time1 <= chosentime && chosentime<=time2) {
   possible="fine";
-}  else {
+}  
+else {
  // console.log("out of range");
-  toast.error('Timings not matching with doctor', {
+ return  toast.error('Timings not matching with doctor', {
     position: "top-right",
  
   })
 }
-    }
+         if(selectday.toLocaleDateString().substring(0,10)===today.toLocaleDateString().substring(0,10)){
+          const options = {
+  timeZone: "Asia/Kolkata",
+  hour12: false,
+  hour: "2-digit",
+  minute: "2-digit",
+ 
+};
+      const timepart=new Intl.DateTimeFormat("en-GB",options).format(today);
+       const  chosentime= new Date(`1970-01-01T${time}Z`);
+ const currtime = new Date(`1970-01-01T${timepart}Z`);
+  const time1 = new Date(`1970-01-01T${start}Z`);
+ const time2 = new Date(`1970-01-01T${end}Z`);
+ 
+      if(chosentime<=currtime || (chosentime>=time1 && chosentime<=time2)){
+        return toast.error("You are too late!!")
+      }
+      //  console.log(timepart);
+
+     }
  
   }
  
   if(possible==="fine"){
+   try{
     const token = localStorage.getItem('token')
-    const response = await fetch(`https://healthcare-ioez.onrender.com/api/appointment/book-appointment/${doctorId}`, {
+    const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/appointment/book-appointment/${doctorId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -189,11 +160,21 @@ else{
       },
       body: JSON.stringify({ name, date, time })
     })
-    console.log(credentials)
+    const json = await response.json();
+    if(json.success){
+    // console.log(credentials)
     nameRef.current.value = ""
     dateRef.current.value = ""
     timeRef.current.value = ""
     sendEmail(event);
+    }
+    else{
+      alert(json.message);
+    }
+   }
+   catch(err){
+       console.log(err.message);
+   }
   }
 }
  

@@ -7,7 +7,7 @@ import DoctorContext from "../../context/DoctorContext.js";
 const thing = { display: "flex", flexWrap: "wrap", justifyContent: "center", width: "100%" };
 const outermost = { display: "flex", justifyContent: "center" };
 const span = { marginRight: "30px", marginLeft: "30px", width: "100%" };
-const btn = { justifyContent: "center" };
+const btn = { display :"flex" ,justifyContent: "center", marginBottom:"4px"};
 const textarea = { width: "90%", height: "100px" };
 const input = { width: "300px" };
 const h1 = { textAlign: 'center', font: 'normal 30px Arial, sans-serif' };
@@ -25,7 +25,7 @@ export default function DoctorDashboard() {
     }
   }, [user])
 
-  const [credentials, setCredentials] = useState({ doctorName: "", patientName: "", date: "", medicines: "", advice: "" })
+  const [credentials, setCredentials] = useState({ doctorName: "", patientName: "", date: new Date().toISOString().substring(0,10), medicines: "", advice: "" })
   const [doctors, setDoctor] = useState({});
   const [appointments, setAppointments] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -37,7 +37,8 @@ export default function DoctorDashboard() {
   }
 
   const getDoctor = async () => {
-    const response = await fetch(`https://healthcare-ioez.onrender.com/api/doctors/getdoctorbyuserid`, {
+    try{
+    const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/doctors/getdoctorbyuserid`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -54,6 +55,10 @@ export default function DoctorDashboard() {
         setAppointments(doctor_appointment)
       }
     }
+    }
+    catch(err){
+console.log(err.message);
+    }
   }
 
   useEffect(() => {
@@ -64,8 +69,9 @@ export default function DoctorDashboard() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    try{
     const { doctorName, patientName, date, medicines, advice } = credentials;
-    const response = await fetch(`https://healthcare-ioez.onrender.com/api/medicalrecords/createmedicalrecord/${patientId}`, {
+    const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/medicalrecords/createmedicalrecord/${patientId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +80,13 @@ export default function DoctorDashboard() {
       body: JSON.stringify({ doctorName, patientName, date, medicines, advice })
     })
     deleteCard(event, selectedAppointment.id);
-    window.location.reload();
+    setSelectedAppointment(null);
+    // window.location.reload();
+    // console.log(credentials)
+    }
+    catch(err){
+console.log(err.message);
+    }
   }
 
   const deleteCard = async (name, id) => {
@@ -84,28 +96,26 @@ export default function DoctorDashboard() {
         const index = ans.findIndex((item => item.id === id));
         ans.splice(index, 1);
         setAppointments(ans);
-        const response = await fetch(`https://healthcare-ioez.onrender.com/api/appointment/delete-appintment/${id}`, {
+        const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/appointment/delete-appintment/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'auth-token': `${user.authToken}`
           }
         });
-        const json = await response.json()
+        const json = await response.json();
+        if(json.success){
+          getDoctor();
+        }
+        else{
+          alert(json.error);
+        }
       }
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err.message)
     }
   }
-
-  return (
-    <>
-      <div className="min-h-screen flex flex-col items-center" style={{ backgroundColor: "#a3f0bd" }}>
-        <div style={{ width: "50%", display: "flex", justifyContent: "center", marginBottom: "10px" }} >
-          <section>
-            <h1 className="my-3" style={{ fontSize: "30px" }}>Doctors's details</h1>
-            <ul>
-              <li>Name: {doctors.name}</li>
+/*<li>Name: {doctors.name}</li>
               <li>Contact: {doctors.contact}</li>
               <li>Email: {doctors.email}</li>
               <li>Fees: {doctors.fees}</li>
@@ -113,10 +123,34 @@ export default function DoctorDashboard() {
               <li>Experience in years: {doctors.experienceInYears}</li>
               <li>Schedule: {doctors.schedule}</li>
               <li>Speciality: {doctors.speciality}</li>
-              <li>Hospital: {doctors.hospital}</li>
+              <li>Hospital: {doctors.hospital}</li> */
+  return (
+    <>
+ {
+     user.authToken ? (
+      <div className="min-h-screen flex flex-col items-center" style={{ backgroundColor: "#a3f0bd" }}>
+       <h1 className="text-4xl text-center mt-32 mb-8">Your Health Care Dashboard</h1>
+      <div className="w-full flex justify-center mb-8">
+          <section className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl">
+            <h1 className="text-2xl mb-4 font-semibold text-center">Doctor Details</h1>
+            <ul className="text-lg space-y-2">
+              <li><b>Name: </b>{doctors.name}</li>
+              <li><b>Contact:</b> {doctors.contact}</li>
+              <li><b>Email:</b> {doctors.email}</li>
+              <li><b>Fees: </b>{doctors.fees}</li>
+              <li><b>Qualification:</b> {doctors.qualification}</li>
+              <li><b>Experience in years:</b> {doctors.experienceInYears}</li>
+              <li><b>Schedule:</b> {`${doctors.days}:${doctors.starttime}-${doctors.endtime}`}</li>
+              <li><b>Speciality:</b> {doctors.speciality}</li>
+              <li><b>Hospital:</b> {doctors.hospital}</li> 
             </ul>
-            <div style={btn}>
-              <button onClick={() => { navigate("/update-doctor") }} className=" my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Update</button>
+            <div className="mt-4 text-center">
+              <button
+                onClick={() => navigate("/update-doctor")}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg"
+              >
+                Update
+              </button>
             </div>
           </section>
         </div>
@@ -130,6 +164,7 @@ export default function DoctorDashboard() {
               className="w-1/3 ml-3 mr-3 mb-8 px-4"
               onClick={() => {
                 setSelectedAppointment(appointment)
+                setCredentials({...credentials,patientName:appointment.name})
                 setPatientId(appointment.patient)
               }}
             >
@@ -171,40 +206,46 @@ export default function DoctorDashboard() {
                 <div style={thing}>
                   <div style={span} className="mb-5 ">
                     <label htmlFor="doctorName" className="block mb-2 text-sm font-medium text-gray-900">Doctor's Name</label>
-                    <input onChange={handleChange} style={input} type="text" name="doctorName" id="doctorName" className="input" required />
+                    <input onChange={handleChange} style={input} type="text" name="doctorName" id="doctorName" className="input px-2" required />
                   </div>
-                  <div style={span} className="mb-5 ">
+                  {/* <div style={span} className="mb-5 ">
                     <label htmlFor="patientName" className="block mb-2 text-sm font-medium text-gray-900">Patient's Name</label>
-                    <input onChange={handleChange} style={input} type="text" name="patientName" id="patientName" className="input" required />
-                  </div>
-                  <div style={span} className="mb-5">
+                    <input onChange={handleChange} style={input} type="text" name="patientName" id="patientName" className="input px-2" required />
+                  </div> */}
+                  {/* <div style={span} className="mb-5">
                     <label htmlFor="date" className="block text-sm font-medium text-black">Today's Date</label>
                     <input style={input} onChange={handleChange} id="date" name="date" type="date" required className="input" />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div style={thing}>
                   <div style={span} className="mb-5 ">
                     <label htmlFor="medicines" className="block mb-2 text-sm font-medium text-gray-900">Medicines</label>
-                    <textarea onChange={handleChange} style={textarea} name="medicines" id="medicines" className="textarea" required />
+                    <textarea onChange={handleChange} style={textarea} name="medicines" id="medicines" className="textarea px-2 pt-2" required />
                   </div>
                 </div>
 
                 <div style={thing}>
                   <div style={span} className="mb-5 ">
                     <label htmlFor="advice" className="block mb-2 text-sm font-medium text-gray-900">Other Advices</label>
-                    <textarea onChange={handleChange} style={textarea} name="advice" id="advice" className="textarea" />
+                    <textarea onChange={handleChange} style={textarea} name="advice" id="advice" className="textarea px-2 pt-2" />
                   </div>
                 </div>
 
                 <div style={btn}>
-                  <button style={{ backgroundColor: " #007C9D" }} type="submit" className="text-white rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Update</button>
+                  <button style={{ backgroundColor: " #007C9D" }} type="submit" className="text-white rounded-lg text-sm  w-auto px-5 py-2.5 text-center">Submit</button>
                 </div>
               </form>
             </div>
           </>
         )}
       </div>
+      )
+    :(
+      <Spinner/>
+          )
+    }
+      
     </>
   )
 }
