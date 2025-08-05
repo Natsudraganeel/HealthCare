@@ -166,7 +166,7 @@ rgba(6, 68, 33, 0.259)), url(doctorbg.jpg);background-size:cover;  background-re
           <h1 style={{ color: "red" }}>{click}</h1>
           <div className="text-white mt-6">
             Haven't registred yet? Register here -
-            <a className="no-underline border-b border-blue text-blue font-bold px-1" href="../signup" style={login}>
+            <a onClick={()=>{navigate('/signup')} className="no-underline border-b border-blue text-blue font-bold px-1"  style={login}>
               Sign Up
             </a>
           </div>
