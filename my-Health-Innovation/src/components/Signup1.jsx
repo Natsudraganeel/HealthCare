@@ -230,7 +230,7 @@ export default function Signup() {
           </form>
           <div className="text-white mt-6">
             Already have an account?
-            <a className="no-underline border-b border-blue text-blue font-bold px-1" href="/signin" style={sign}>
+            <a onClick={()=>{navigate('/signin')}} className="no-underline border-b border-blue text-blue font-bold px-1"  style={sign}>
               Log in
             </a>
           </div>
