@@ -138,7 +138,7 @@ else {
   const time1 = new Date(`1970-01-01T${start}Z`);
  const time2 = new Date(`1970-01-01T${end}Z`);
  
-      if(chosentime<=currtime || (chosentime>=time1 && chosentime<=time2)){
+      if(chosentime<=currtime || (chosentime<=time1 || chosentime>=time2)){
         return toast.error("You are too late!!")
       }
       //  console.log(timepart);
