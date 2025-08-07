@@ -136,7 +136,7 @@ const Navbar = () => {
                                     <button onClick={() => { navigate("/changepassword") }} href="/" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-black w-full">Change password</button>
                                 </div>
                                 <div className="py-1">
-                                    <button onClick={handleLogout} href="/" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-black w-full">Logout</button>
+                                    <button onClick={handleLogout}  className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-black w-full">Logout</button>
                                 </div>
                                
                             </div>
@@ -176,8 +176,8 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <div className='flex flex-col gap-4'>
-                            <button onClick={handleDashboard} href="/" className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Dashboard</button>
-                            <button onClick={handleLogout} href="/" className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Logout</button>
+                            <button onClick={handleDashboard}  className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Dashboard</button>
+                            <button onClick={handleLogout}  className="bg-brightColor text-black py-2 ml-10 mr-10 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">Logout</button>
                         </div>
                     )}
                 </div>
