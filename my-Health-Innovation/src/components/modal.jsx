@@ -86,7 +86,7 @@ export default function Modal({ doctorId,name,days,starttime,endtime,closeForm }
      console.log("today",today);
      console.log("selectday",selectday);
      if(selectday.toDateString()<today.toDateString()){
-      return toast.error(Choose a valid date, {
+      return toast.error(`Choose a valid date`, {
       position: "top-right",
     })
      }
@@ -98,7 +98,7 @@ export default function Modal({ doctorId,name,days,starttime,endtime,closeForm }
    let bool=array.find((c)=>{return weekday[y]===c});
  
    if(bool===undefined){
-    return toast.error(Doctor is not available on this weekday.Please see the schedule, {
+    return toast.error(`Doctor is not available on this weekday.Please see the schedule`, {
       position: "top-right",
  
     })
@@ -111,9 +111,9 @@ else{
     // console.log(start);
     // console.log(end);
 
- time1 = new Date(1970-01-01T${start});
- time2 = new Date(1970-01-01T${end});
- chosentime= new  Date(1970-01-01T${time});
+ time1 = new Date(`1970-01-01T${start}`);
+ time2 = new Date(`1970-01-01T${end}`);
+ chosentime= new  Date(`1970-01-01T${time}`);
 //  console.log(time1,time2,chosentime);
  if (time1 <= chosentime && chosentime<=time2) {
   possible="fine";
@@ -135,14 +135,14 @@ else {
 };
 // const lex=new Date().toDateString();   
 const timepart=new Intl.DateTimeFormat("en-GB",options).format(today);
-       const  chosentime= new Date(1970-01-01T${time});
- const currtime = new Date(1970-01-01T${timepart});
-  const time1 = new Date(1970-01-01T${start});
- const time2 = new Date(1970-01-01T${end});
+const  chosentime= new Date(`1970-01-01T${time}`);
+const currtime = new Date(`1970-01-01T${timepart}`);
+const time1 = new Date(`1970-01-01T${start}`);
+const time2 = new Date(`1970-01-01T${end}`);
        console.log(chosentime);
-              console.log(currtime);
-              console.log(time1);
-              console.log(time2);
+       console.log(currtime);
+       console.log(time1);
+       console.log(time2);
 
       if(chosentime<=currtime || (currtime>=time1 && currtime<=time2)){
         return toast.error("You are too late!!")
