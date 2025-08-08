@@ -72,25 +72,25 @@ export default function Modal({ doctorId,name,days,starttime,endtime,closeForm }
     // console.log(doctorId);
     const { name, date, time } = credentials;
     //console.log(date);
-var possible="";
+     var possible="";
     const end=endtime;
     const start=starttime;
     //     console.log(start);
     // console.log(end);
     // let days=schedule.substring(0,schedule.length-12);
- 
+      // console.log(days);
      const array=days.split(",");
-     const selectday=new Date(`${date}T${"13:45"}Z`);
+     const selectday=new Date(date);
      const y=selectday.getDay();
      const today=new Date();
-    //  console.log("today",today.toLocaleString());
-    //  console.log("selectday",selectday.toLocaleString());
-     if(selectday.toLocaleDateString()<today.toLocaleDateString()){
-      return toast.error(`Choose a valid date`, {
+     console.log("today",today);
+     console.log("selectday",selectday);
+     if(selectday.toDateString()<today.toDateString()){
+      return toast.error(Choose a valid date, {
       position: "top-right",
     })
      }
-    
+    console.log(weekday[y]);
  
     //  console.log(weekday[y]);
     //  console.log(typeof(weekday[y]));
@@ -98,7 +98,7 @@ var possible="";
    let bool=array.find((c)=>{return weekday[y]===c});
  
    if(bool===undefined){
-    return toast.error(`Doctor is not available on this weekday.Please see the schedule`, {
+    return toast.error(Doctor is not available on this weekday.Please see the schedule, {
       position: "top-right",
  
     })
@@ -111,9 +111,10 @@ else{
     // console.log(start);
     // console.log(end);
 
- time1 = new Date(`1970-01-01T${start}Z`);
- time2 = new Date(`1970-01-01T${end}Z`);
- chosentime= new  Date(`1970-01-01T${time}Z`);
+ time1 = new Date(1970-01-01T${start});
+ time2 = new Date(1970-01-01T${end});
+ chosentime= new  Date(1970-01-01T${time});
+//  console.log(time1,time2,chosentime);
  if (time1 <= chosentime && chosentime<=time2) {
   possible="fine";
 }  
@@ -124,7 +125,7 @@ else {
  
   })
 }
-         if(selectday.toLocaleDateString().substring(0,10)===today.toLocaleDateString().substring(0,10)){
+         if(selectday.toDateString()===today.toDateString()){
           const options = {
   timeZone: "Asia/Kolkata",
   hour12: false,
@@ -132,13 +133,18 @@ else {
   minute: "2-digit",
  
 };
-      const timepart=new Intl.DateTimeFormat("en-GB",options).format(today);
-       const  chosentime= new Date(`1970-01-01T${time}Z`);
- const currtime = new Date(`1970-01-01T${timepart}Z`);
-  const time1 = new Date(`1970-01-01T${start}Z`);
- const time2 = new Date(`1970-01-01T${end}Z`);
- 
-      if(chosentime<=currtime || (chosentime>=time1 && chosentime<=time2)){
+// const lex=new Date().toDateString();   
+const timepart=new Intl.DateTimeFormat("en-GB",options).format(today);
+       const  chosentime= new Date(1970-01-01T${time});
+ const currtime = new Date(1970-01-01T${timepart});
+  const time1 = new Date(1970-01-01T${start});
+ const time2 = new Date(1970-01-01T${end});
+       console.log(chosentime);
+              console.log(currtime);
+              console.log(time1);
+              console.log(time2);
+
+      if(chosentime<=currtime || (currtime>=time1 && currtime<=time2)){
         return toast.error("You are too late!!")
       }
       //  console.log(timepart);
@@ -148,13 +154,13 @@ else {
   }
  
   if(possible==="fine"){
-   try{
+    console.log("success")
     const token = localStorage.getItem('token')
     const response = await fetch(`https://healthcare-backend-z0xu.onrender.com/api/appointment/book-appointment/${doctorId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'auth-token': `${user.authToken}`
+        'auth-token': ${user.authToken}
         // 'auth-Token': localStorage.getItem('token')
         // 'auth-Token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVlOGNlOTE2Y2U4OWQ4NjE5YTMxMjVlIn0sImlhdCI6MTcwOTc5OTA4OX0.Xaigg3iTtDlJlUXCsjAUg5rvcjrR9TGkCVqNJsuMFeM'
       },
@@ -162,7 +168,7 @@ else {
     })
     const json = await response.json();
     if(json.success){
-    // console.log(credentials)
+    console.log(credentials)
     nameRef.current.value = ""
     dateRef.current.value = ""
     timeRef.current.value = ""
@@ -171,10 +177,6 @@ else {
     else{
       alert(json.message);
     }
-   }
-   catch(err){
-       console.log(err.message);
-   }
   }
 }
  
