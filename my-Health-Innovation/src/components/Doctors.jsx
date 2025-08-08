@@ -69,6 +69,13 @@ export default function Doctor() {
       }
     });
     const json = await response.json();
+    let arr =[];
+    for(var i=0;i<json.length;i++){
+      if(json[i].contact===0 || json[i].days===" " || json[i].starttime===" " || json[i].endtime===" " || json[i].fees===0 || json[i].hospital===" " || json[i].name===" " || json[i].qualification===" " || json[i].speciality===" "){
+        continue;
+      }
+      arr.push(json[i]);
+    }
     setDoctors(json);
     }
     catch(err){
